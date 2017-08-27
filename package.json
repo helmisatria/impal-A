@@ -1,0 +1,28 @@
+{
+  "name": "impal-a",
+  "version": "1.0.0",
+  "description": "TUBES IMPAL Terstruktur",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "hbs": "^4.0.1",
+    "mongodb": "^2.2.31"
+  },
+  "devDependencies": {
+    "eslint-config-rallycoding": "^3.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helmisatria/impal-A.git"
+  },
+  "author": "Helmi, Falah, Miftah, Naufal, Lidya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/helmisatria/impal-A/issues"
+  },
+  "homepage": "https://github.com/helmisatria/impal-A#readme"
+}

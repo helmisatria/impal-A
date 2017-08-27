@@ -1,0 +1,46 @@
+html,
+body,
+.login-box {
+  height: 100%;
+}
+
+#logo {
+  padding: 0;
+}
+
+.header {
+  border-bottom: 1px solid #EDEDED;
+  padding-bottom: 15px;
+}
+
+.bg {
+  background-image: url('../image/supermarket.jpg');
+  /*background-color: #ffffff !important;*/
+  max-width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 255) !important;
+}
+.card-panel {
+  max-width: 450px;
+  margin: 0 auto
+}
+.hr-vertical {
+  border-left: 1px solid #EDEDED;
+  height: 100px;
+}
+.login-title {
+  margin-top: 5%;
+  font-size: 1.2rem;
+  padding-left: 6% !important;
+}
+
+.grey-title{
+  color: #828282 !important;
+}
+
+.img-login {
+  width: 100px !important;
+  height: 100px !important;
+  /*border-right: 1px solid #EDEDED*/
+}
