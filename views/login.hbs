@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
 
-  <body class="bg">
+  <body class="bg" style="">
     <div class="valign-wrapper row login-box" style="margin-bottom: 0px;">
       <div class="col card hoverable s10 pull-s1 m6 pull-m3 l5 pull-l3 xl4 pull-xl4 z-depth-4">
         <form action="/login" method="post">
@@ -28,11 +28,11 @@
             <div class="row">
               <div class="input-field col s12">
                 <label for="username">Username</label>
-                <input type="text" class="validate" name="username" id="username" />
+                <input type="text" class="validate" name="username" id="username" required/>
               </div>
               <div class="input-field col s12">
                 <label for="password">Password </label>
-                <input type="password" class="validate" name="password" id="password" />
+                <input type="password" class="validate" name="password" id="password" required/>
               </div>
             </div>
           </div>
@@ -47,5 +47,8 @@
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/login.js">
+
+    </script>
   </body>
 </html>

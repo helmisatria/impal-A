@@ -14,7 +14,12 @@ body,
 }
 
 .bg {
-  background-color: #ff1744 !important;
+  background-image: url('../image/supermarket.jpg');
+  /*background-color: #ffffff !important;*/
+  max-width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 255) !important;
 }
 .card-panel {
   max-width: 450px;

@@ -11,6 +11,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
 
+require('./db/config');
+
 app.get('/', (req, res) => {
   res.send({ message: 'hello, You are connected!' })
 })
@@ -20,7 +22,6 @@ app.get('/login', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-  console.log(req.body);
   res.send(req.body)
 })
 
