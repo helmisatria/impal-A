@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 
-const url = 'mongodb://localhost:27017/myproject';
+const url = 'mongodb://localhost:27017/impal-db';
 
 MongoClient.connect(url, (err) => {
   if (err) {

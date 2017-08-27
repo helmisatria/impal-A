@@ -1,5 +1,5 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require('express')
+const bodyParser = require('body-parser')
 
 const app = express()
 
@@ -8,7 +8,6 @@ app.set('view engine', 'hbs')
 app.use(express.static('public'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
-
 app.use(bodyParser.json())
 
 require('./db/config');
@@ -23,6 +22,10 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
   res.send(req.body)
+})
+
+app.get('/data_user', (req, res) => {
+  res.render('data_user')
 })
 
 app.listen(8000, (err) => {
