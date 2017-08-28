@@ -1,10 +1,14 @@
 const MongoClient = require('mongodb').MongoClient;
 
-const url = 'mongodb://localhost:27017/impal-db';
+const url = 'mongodb://localhost:27017/myproject';
 
-MongoClient.connect(url, (err) => {
-  if (err) {
-    return console.log("Can't connect to database!");
-  }
-  return console.log('Database connected!');
-})
+const database = MongoClient.connect(url)
+  .then((db) => {
+    console.log('connected!');
+    return db
+  })
+  .catch((err) => {
+    return err
+  })
+
+module.exports = database
