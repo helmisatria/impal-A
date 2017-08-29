@@ -21,24 +21,16 @@ app.use(cookieParser());
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
   key: 'xsecret',
-  secret: 'helo!',
+  secret: 'bismillahsemogaimpaldapetA',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 },
+  cookie: { maxAge: 15000 },
 }))
 
 // middleware function to check for logged-in users
 const auth = (req, res, next) => {
-  db.collection('user').findOne({ token: req.headers.cookie.xsecret })
-    .then((result) => {
-      if (!result) throw console.log('not found!');
-      app.set('user', result)
-      console.log(result);
-      next()
-    })
-    .catch((e) => {
-      res.status(401).send(e)
-    })
+  if (req.cookies.xsecret && req.session.user) return next()
+  return res.status(403).redirect('login')
 }
 
 let db
@@ -54,6 +46,9 @@ MongoClient.connect(url)
 
 app.get('/', (req, res) => {
   console.log(req.session);
+  if (req.session.user) {
+    return res.send({ message: 'hello, You are connected!', user: req.session.user })
+  }
   res.send({ message: 'hello, You are connected!' })
 })
 
@@ -65,36 +60,40 @@ app.get('/login', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
+  if (req.session.user) res.redirect('/')
   const { username, password } = req.body
   db.collection('user').findOne({ username, password })
   .then((result) => {
     if (!result) {
-      return console.log('Tidak ditemukan');
+      return res.status(400).send('Login gagal!')
     }
     req.session.user = result
-    res.send(`halo! ${result.username}`)
+    res.status(200).send(result)
   })
   .catch((e) => {
     res.status(401).send(e)
   })
 })
 
+app.get('/signup', (req, res) => {
+  res.render('signup')
+})
+
+app.post('/signup', (req, res) => {
+  const { body } = req
+  db.collection('user').findOne({ username: body.username })
+    .then((result) => {
+      if (result) return res.status(400).send('username telah digunakan')
+      db.collection('user').insertOne(body)
+      .then((user) => {
+        res.status(200).send(user.ops[0])
+      })
+    })
+})
+
 app.get('/logout', (req, res) => {
   req.session.destroy()
   res.redirect('/')
-})
-
-app.get('/insert_user', (req, res) => {
-  db.collection('user').insertOne({
-    nama: 'Helmi Satria BARU'
-  })
-    .then((result) => {
-      res.send(result.ops[0])
-      console.log(result)
-    })
-    .catch((err) => {
-      res.send(err)
-    })
 })
 
 app.get('/delete/:iduser', (req, res) => {
@@ -107,7 +106,6 @@ app.get('/delete/:iduser', (req, res) => {
     })
     .catch((err) => {
       res.send(err)
-      console.log(err);
     })
 })
 
