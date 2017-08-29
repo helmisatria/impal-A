@@ -13,7 +13,7 @@
   <body class="bg" style="">
     <div class="valign-wrapper row login-box" style="margin-bottom: 0px;">
       <div class="col card hoverable s10 pull-s1 m6 pull-m3 l5 pull-l3 xl4 pull-xl4 z-depth-4">
-        <form action="/login" method="post">
+        <form id="formlogin" action="/login" method="post">
           <div class="card-content">
             <div class="row header">
               <div id="logo" class="col xl3 push-xl1 l1 m3 s3 push-xl2">
@@ -38,7 +38,7 @@
           </div>
           <div class="card-action right-align">
             <!-- <input type="reset" id="reset" class="btn-flat grey-text waves-effect"> -->
-            <input type="submit" class="btn red darken-2 waves-effect waves-light" value="Login">
+            <input id="submit" type="submit" class="btn red darken-2 waves-effect waves-light" value="Login">
           </div>
         </form>
       </div>
@@ -47,8 +47,6 @@
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
-    <script type="text/javascript" src="js/login.js">
-
-    </script>
+    <script type="text/javascript" src="js/login.js"></script>
   </body>
 </html>
