@@ -96,6 +96,10 @@ app.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
+app.get('/dashboard', (req, res) => {
+  res.render('dashboard')
+})
+
 app.get('/delete/:iduser', (req, res) => {
   const id = ObjectId(req.params.iduser)
   // const id = req.params.iduser
