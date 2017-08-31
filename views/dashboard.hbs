@@ -14,58 +14,69 @@
 
 <body>
   <div id="header" class="row">
-    <div id="kiri"class="col s3">
-        <p>Sistem Manajemen Citra Mart</p>
+    <div class="col s3">
+      <img src="image/pic_pojok.png" id="pic_pojok">
     </div>
-    <div id="kanan"class="col s9">
-      <p>Selamat Datang, Staf Gudang</p>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="collapsible.html">Logout</a></li>
-      </ul>
+    <div class="col s3">
+      <div id="welcome" class="valign-wrapper">
+        <i id="img-orang" class="material-icons bulet">accessibility</i>
+        <span><span id="welcome-text">Selamat Datang,</span> Staf Gudang</span>
+      </div>
+    </div>
+    <div class="col s6">
+      <div id="logout-text" class="valign-wrapper right">
+        <a href="#">Logout</a>
+      </div>
     </div>
   </div>
   <div class="row">
     <div id="kiri" class="col s3">
       <ul class="collection">
-        <li class="collection-item">Navigasi</li>
-        <li class="collection-item li">
+        <li class="collection-item valign-wrapper" id="navigasi">Navigasi</li>
+        <li class="collection-item valign-wrapper">
           <i class="material-icons bulet">home</i>
           Dashboard
         </li>
-        <li class="collection-item">
+        <li class="collection-item valign-wrapper">
           <i class="material-icons bulet">extension</i>
           Data Barang
         </li>
-        <li class="collection-item">
+        <li class="collection-item valign-wrapper">
           <i class="material-icons bulet">add_shopping_cart</i>
           Data Pengadaan Barang
         </li>
-        <li class="collection-item li">
-          <i class="material-icons bulet">payment</i>
+        <li class="collection-item valign-wrapper">
+          <i class="material-icons bulet">account_balance_wallet</i>
           Data Pembayaran Barang
         </li>
       </ul>
     </div>
     <div id="kanan" class="col s9">
       <div id="header_right" class="valign-wrapper">
-        <div class="col s3 pull-s2" id="sub-judul">
+        <div class="col s4" id="sub-judul">
           <p>Data Barang</p>
         </div>
-        <div class="col s4 pull-s5">
+        <div class="col s7">
           <form>
             <div class="input-field valign-wrapper">
               <label class="label-icon" for="search">
                 <i class="material-icons" id="search-icon">search</i>
               </label>
-              <input id="search" type="search" placeholder="Cari data barang" required>
+              <input id="search" type="search" onkeyup="searchTable()" placeholder="Cari data barang" required>
               <i class="material-icons" id="close-icon">close</i>
             </div>
           </form>
         </div>
+        <div class="col s5">
+          <a class="waves-effect btn sm-text-capitalize" id="left-btn">Cetak data barang</a>
+        </div>
+        <div class="col s6" style="padding-left: 0">
+          <a class="waves-effect btn sm-text-capitalize" id="right-btn"><i class="material-icons right" id="add-icon">add</i>Tambah data barang</a>
+        </div>
       </div>
       <div class="row">
         <div class="">
-          <table class="bordered striped centered responsive-table">
+          <table class="bordered striped centered responsive-table" id="table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -85,33 +96,33 @@
                 <td>90</td>
                 <td>Obat</td>
                 <td>
+                  <i class="material-icons aksi-icon">remove_red_eye</i>
+                  <i class="material-icons aksi-icon">mode_edit</i>
+                  <i class="material-icons aksi-icon">delete</i>
+                </td>
+              </tr>
+              <tr>
+                <td>123</td>
+                <td>Cole Red</td>
+                <td>10</td>
+                <td>90</td>
+                <td>Obat</td>
+                <td>
+                  <i class="material-icons aksi-icon">remove_red_eye</i>
+                  <i class="material-icons aksi-icon">mode_edit</i>
+                  <i class="material-icons aksi-icon">delete</i>
+                </td>
+              </tr>
+              <tr>
+                <td>123</td>
+                <td>Cole Red</td>
+                <td>10</td>
+                <td>90</td>
+                <td>Obat</td>
+                <td>
                     <i class="material-icons aksi-icon">remove_red_eye</i>
                     <i class="material-icons aksi-icon">mode_edit</i>
                     <i class="material-icons aksi-icon">delete</i>
-                </td>
-              </tr>
-              <tr>
-                <td>123</td>
-                <td>Cole Red</td>
-                <td>10</td>
-                <td>90</td>
-                <td>Obat</td>
-                <td>
-                  <i class="material-icons">remove_red_eye</i>
-                    <i class="material-icons">mode_edit</i>
-                    <i class="material-icons">delete</i>
-                </td>
-              </tr>
-              <tr>
-                <td>123</td>
-                <td>Cole Red</td>
-                <td>10</td>
-                <td>90</td>
-                <td>Obat</td>
-                <td>
-                    <i class="material-icons">remove_red_eye</i>
-                    <i class="material-icons">mode_edit</i>
-                    <i class="material-icons">delete</i>
                 </td>
               </tr>
             </tbody>
@@ -126,5 +137,8 @@
   <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="js/dashboard.js">
+
+  </script>
 </body>
 </html>

@@ -1,7 +1,28 @@
 #header {
-  margin: 0 !important;
-  height: 80px;
+  margin-bottom: 10px;
+  padding-top: 10px;
   background-color: #ffffff;
+}
+
+#pic_pojok {
+  padding-top: 10px;
+  padding-left: 30px
+}
+
+#img-orang {
+  margin: 0;
+  background-color: #D95065;
+  color: white;
+}
+
+#welcome-text {
+  padding-left: 15px;
+  color: #878787;
+}
+
+#welcome {
+  padding-left: 40px;
+  padding-top: 5px;
 }
 
 #kiri {
@@ -25,16 +46,33 @@
 .middle {
   margin: auto 0
 }
+
 .bulet
 {
   display: inline-block;
   border-radius: 60px;
   box-shadow: 0px 0px 2px #888;
-  padding: 10px
+  padding: 9px;
+  margin-right: 20px;
 }
-.li{
-  padding: 0px;
-  margin : 0px;
+
+li {
+  height: 65px;
+}
+
+#logout-text {
+  padding-top: 15px;
+  padding-right: 10%;
+}
+
+li.collection-item {
+  padding-left: 40px !important
+}
+
+#navigasi {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 500;
 }
 
 #close-icon {
@@ -42,7 +80,7 @@
 }
 
 #search {
-  padding-left: 50px;
+  padding: 0 45px;
   background-color: white;
   border-bottom: none;
   border-radius: 5px;
@@ -56,6 +94,7 @@
 #sub-judul {
   font-size: 1.5rem;
   font-weight: 300;
+  margin-left: 4%;
 }
 
 th {
@@ -75,4 +114,21 @@ td {
 
 .aksi-icon:hover {
   color: black;
+}
+
+.sm-text-capitalize {
+  font-size: 1em;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+#left-btn {
+  background-color: transparent !important;
+  color: #7c7c7c;
+}
+
+#right-btn {
+  margin-left: 8px;
+  background-color: #878787 !important;
+  margin-right: 15px
 }
