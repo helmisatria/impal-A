@@ -1,3 +1,12 @@
+$(document).ready(function(){
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+
+function clearInput() {
+  let input = document.getElementById("search").value = ''
+}
+
 function searchTable() {
   // Declare variables
   var input, filter, table, tr, td, i;

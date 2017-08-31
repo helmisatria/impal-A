@@ -47,13 +47,13 @@
   margin: auto 0
 }
 
-.bulet
-{
+.bulet {
   display: inline-block;
   border-radius: 60px;
   box-shadow: 0px 0px 2px #888;
   padding: 9px;
   margin-right: 20px;
+  background-color: white;
 }
 
 li {
@@ -77,6 +77,7 @@ li.collection-item {
 
 #close-icon {
   top: 7px;
+  cursor: pointer;
 }
 
 #search {
@@ -97,13 +98,21 @@ li.collection-item {
   margin-left: 4%;
 }
 
+.active-colletion {
+  border-right: 4px solid #d95065 !important;
+}
+
+.active-colletion:hover {
+  background-color: #f7f7f7;
+}
+
 th {
-  padding: 15px 50px;
+  padding: 15px 0px;
   font-weight: 500;
 }
 
 td {
-  padding: 15px 50px;
+  padding: 15px 20px;
   font-weight: 400;
 }
 
@@ -129,8 +138,47 @@ td {
 }
 
 #right-btn {
-  /*margin-left: 0;*/
-  /*padding: 0 10px;*/
   background-color: #878787 !important;
   margin-right: 15px;
+}
+
+.modal-content {
+  padding: 0 !important;
+}
+
+.modal {
+  width: 40% !important
+}
+
+.modal-title {
+  font-size: 1.2em;
+}
+
+.modal-header {
+  padding: 5px 30px;
+  margin-bottom: 0 !important;
+}
+
+.modal-middle-content {
+  padding: 9px 30px;
+}
+
+.divider {
+  margin-bottom: 20px;
+}
+
+.modal-subtitle {
+  color: #bcbcbc;
+  font-weight: 500;
+}
+
+#button-modal-header {
+  margin-left: 40px;
+}
+
+#button-modal-title {
+  background-color: #878787;
+  font-weight: 400;
+  text-transform: capitalize;
+  border-radius: 4px;
 }
