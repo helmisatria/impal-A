@@ -13,7 +13,7 @@
 }
 
 #header_right {
-  height: 100px;
+  height: 80px;
   background-color: #E9E9E9;
   padding: 0;
 }
@@ -36,19 +36,43 @@
   padding: 0px;
   margin : 0px;
 }
-.navbar{
-  background-color: #ffffff;
-  padding: 0px;
-  margin: 0px;
+
+#close-icon {
+  top: 7px;
 }
-/*#logo {
-  padding: 0;
+
+#search {
+  padding-left: 50px;
+  background-color: white;
+  border-bottom: none;
+  border-radius: 5px;
+  margin-bottom: 1em;
 }
-.bg {
-  background-image: url('../image/supermarket.jpg');
-  /*background-color: #ffffff !important;*/
-  max-width: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 255) !important;
-}*/
+
+.input-field label {
+  margin-left: 10px;
+}
+
+#sub-judul {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+th {
+  padding: 15px 50px;
+  font-weight: 500;
+}
+td {
+  padding: 15px 50px;
+  font-weight: 400;
+}
+
+.aksi-icon {
+  margin-left: 8px;
+  color: #B9B9B9;
+  cursor: pointer;
+}
+
+.aksi-icon:hover {
+  color: black;
+}
