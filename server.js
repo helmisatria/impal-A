@@ -5,12 +5,15 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const hbs = require('hbs');
 
 const url = 'mongodb://localhost:27017/dbimpal-A';
 
 const app = express()
 
 app.set('view engine', 'hbs')
+hbs.registerPartials(`${__dirname}/views/partials`);
+
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -100,6 +103,10 @@ app.get('/dashboard', (req, res) => {
   res.render('dashboard')
 })
 
+app.get('/data', (req, res) => {
+  res.render('data')
+})
+
 app.get('/delete/:iduser', (req, res) => {
   const id = ObjectId(req.params.iduser)
   // const id = req.params.iduser
@@ -111,6 +118,9 @@ app.get('/delete/:iduser', (req, res) => {
     .catch((err) => {
       res.send(err)
     })
+})
+app.get('/data_pembelian', (req,res) => {
+  res.render('data_pembelian')
 })
 
 app.get('/all_user', auth, (req, res) => {

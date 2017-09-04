@@ -1,15 +1,7 @@
-html, body {
-    background-image: linear-gradient(to right, white, white 10%, #F0F0F0 70%, #F0F0F0);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
 #header {
-  padding-bottom: 15px;
-  margin-bottom: 0;
+  margin-bottom: 10px;
   padding-top: 10px;
   background-color: #ffffff;
-  box-shadow: 0px 0px 2px #888;
 }
 
 #pic_pojok {
@@ -36,9 +28,7 @@ html, body {
 #kiri {
   margin: 0;
   padding: 0;
-  height: 100%;
 }
-
 .collection {
   margin: 0;
 }
@@ -108,13 +98,12 @@ li.collection-item {
   margin-left: 4%;
 }
 
-.active-collection {
+.active-colletion {
   border-right: 4px solid #d95065 !important;
-  background-color: #f7f7f7;
 }
 
-.active-collection:hover {
-
+.active-colletion:hover {
+  background-color: #f7f7f7;
 }
 
 th {
@@ -157,7 +146,7 @@ td {
   padding: 0 !important;
 }
 
-#cetak-barang {
+#cetak-data-barang {
   width: 40% !important
 }
 
@@ -189,6 +178,10 @@ td {
 
 #button-modal-header {
   margin-left: 40px;
+}
+
+.no-margin-bottom {
+  margin-bottom: 0 !important;
 }
 
 #button-modal-title {
@@ -240,38 +233,4 @@ td {
 
 #saya-yakin-btn:hover {
   background-color: #fc004b;
-}
-
-#dashboard-cards {
-  padding: 20px;
-}
-
-.btn-capitalize-text {
-  text-transform: capitalize;
-}
-
-.btn-dashboard {
-  background-color: #878787
-}
-
-.btn-round {
-  border-radius: 8px;
-}
-
-a {
-  color: inherit;
-}
-
-.btn-dashboard:hover {
-  background-color: #e5e5e5;
-  color: #3d3d3d;
-}
-
-.card-content {
-  text-align: center;
-  padding: 40px 0 !important;
-}
-
-.number-dashboard-card {
-  font-size: 3.5em;
 }

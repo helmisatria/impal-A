@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  <link rel="stylesheet" href="css/data.css">
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+  <div id="header" class="row">
+    <div class="col s3">
+      <img src="image/pic_pojok.png" id="pic_pojok">
+    </div>
+    <div class="col s3">
+      <div id="welcome" class="valign-wrapper">
+        <i id="img-orang" class="material-icons bulet">accessibility</i>
+        <span><span id="welcome-text">Selamat Datang,</span> Staf Gudang</span>
+      </div>
+    </div>
+    <div class="col s6">
+      <div id="logout-text" class="valign-wrapper right">
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div id="kiri" class="col s3">
+      <ul class="collection">
+        <li class="collection-item valign-wrapper" id="navigasi">Navigasi</li>
+        <li class="collection-item valign-wrapper">
+          <i class="material-icons bulet">home</i>
+          Dashboard
+        </li>
+        <li class="collection-item valign-wrapper active-collection">
+          <i class="material-icons bulet">extension</i>
+          Data Barang
+        </li>
+        <li class="collection-item valign-wrapper">
+          <i class="material-icons bulet">add_shopping_cart</i>
+          Data Pengadaan Barang
+        </li>
+        <li class="collection-item valign-wrapper">
+          <i class="material-icons bulet">account_balance_wallet</i>
+          Data Pembayaran Barang
+        </li>
+      </ul>
+    </div>
+    <div id="kanan" class="col s9">
+      <div id="header_right" class="valign-wrapper">
+        <div class="col s4" id="sub-judul">
+          <p>Data Barang</p>
+        </div>
+        <div class="col s7">
+          <form>
+            <div class="input-field valign-wrapper">
+              <label class="label-icon" for="search">
+                <i class="material-icons" id="search-icon">search</i>
+              </label>
+              <input id="search" type="search" onkeyup="searchTable()" placeholder="Cari data barang" required>
+              <i class="material-icons" id="close-icon" onclick="clearInput()">close</i>
+            </div>
+          </form>
+        </div>
+        <div class="col s5">
+          <a class="waves-effect btn sm-text-capitalize modal-trigger" href="#cetak-data-barang" id="left-btn">Cetak data barang</a>
+        </div>
+        <div class="col s7" style="padding-left: 0">
+          <a class="waves-effect btn sm-text-capitalize modal-trigger" id="right-btn" href="#modal-new-barang"><i class="material-icons right" id="add-icon">add</i>Tambah data barang</a>
+        </div>
+      </div>
+      <div class="row">
+          <table class="bordered striped centered responsive-table" id="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nama Barang</th>
+                <th>Stok</th>
+                <th>Stok Opname</th>
+                <th>Kategori</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>123</td>
+                <td>Lorem ipsum dolor sit amet </td>
+                <td>10</td>
+                <td>90</td>
+                <td>Obat</td>
+                <td class="aksi-icon-padding">
+                  <i class="material-icons aksi-icon">remove_red_eye</i>
+                  <i class="material-icons aksi-icon">mode_edit</i>
+                  <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
+                </td>
+              </tr>
+              <tr>
+                <td>123</td>
+                <td>Cole Red</td>
+                <td>10</td>
+                <td>90</td>
+                <td>Obat</td>
+                <td class="aksi-icon-padding" >
+                  <i class="material-icons aksi-icon">remove_red_eye</i>
+                  <i class="material-icons aksi-icon">mode_edit</i>
+                  <i class="material-icons aksi-icon">delete</i>
+                </td>
+              </tr>
+              <tr>
+                <td>123</td>
+                <td>Cole Red</td>
+                <td>10</td>
+                <td>90</td>
+                <td>Obat</td>
+                <td class="aksi-icon-padding">
+                  <i class="material-icons aksi-icon">remove_red_eye</i>
+                  <i class="material-icons aksi-icon">mode_edit</i>
+                  <i class="material-icons aksi-icon">delete</i>
+                </td>
+              </tr>
+              <tr>
+                <td>123</td>
+                <td>Cole Red</td>
+                <td>10</td>
+                <td>90</td>
+                <td>Obat</td>
+                <td class="aksi-icon-padding">
+                    <i class="material-icons aksi-icon">remove_red_eye</i>
+                    <i class="material-icons aksi-icon">mode_edit</i>
+                    <i class="material-icons aksi-icon">delete</i>
+                </td>
+              </tr>
+            </tbody>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="cetak-data-barang" class="modal">
+    <div class="modal-content">
+      <div class="row modal-header valign-wrapper">
+        <div class="col s5">
+          <p class="modal-title">Detail Data Barang</p>
+        </div>
+        <div class="col s6">
+          <a id="button-modal-title" class="waves-effect waves-light btn right">Cetak Laporan</a>
+        </div>
+        <div class="col s2">
+          <i id="close-icon" class="material-icons right modal-action modal-close" style="color: #BFBFBF">close</i>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="modal-middle-content">
+      <div class="row">
+        <div class="col s6">
+          <span class="modal-subtitle">ID</span><br>
+          <span>kd001</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s6">
+          <span class="modal-subtitle">Nama Barang</span><br>
+          <span>Bromociptine</span>
+        </div>
+        <div class="col s6">
+          <span class="modal-subtitle">Kategori</span><br>
+          <span>Obat</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <div class="col s6">
+          <span class="modal-subtitle">Stok</span><br>
+          <span>20</span>
+        </div>
+        <div class="col s6">
+          <span class="modal-subtitle">Stop Opname</span><br>
+          <span>5</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s6">
+          <span class="modal-subtitle">Merk</span><br>
+          <span>Aqua</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <div class="col s6">
+          <span class="modal-subtitle">Harga Beli</span><br>
+          <span>Rp 90.000</span>
+        </div>
+        <div class="col s6">
+          <span class="modal-subtitle">Harga Jual</span><br>
+          <span>Rp 95.000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modal-delete" class="modal" >
+    <div class="modal-content">
+      <div class="row">
+        <div class="col s12" style="padding-right: 0">
+          <i id="modal-delete-close-icon" class="material-icons right modal-action modal-close" style="color: #BFBFBF">close</i>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col s12 modal-close-icon">
+          <i class="material-icons bulet" id="modal-close-icon">close</i>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <span id="modal-delete-text">Apakah anda yakin menghapus data ini?</span>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 50px">
+        <div class="col s12">
+          <a id="batalkan-btn" class="waves-effect waves-light btn btn-flat">Batalkan</a>
+          <a id="saya-yakin-btn"class="waves-effect waves-light btn red-btn">Ya, Saya Yakin</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modal-new-barang" class="modal">
+    <div class="modal-content">
+      <div class="row modal-header valign-wrapper">
+        <div class="col s5" style="margin-left: 0">
+          <p class="modal-title">Tambah Data Barang</p>
+        </div>
+        <div class="col s2">
+          <i id="close-icon" class="material-icons right modal-action modal-close" style="color: #BFBFBF">close</i>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="modal-middle-content">
+      <div class="row no-margin-bottom">
+        <div class="input-field col s6">
+          <input disabled value="KD002" id="id-barang" type="text" class="validate">
+          <label for="id-barang" style="margin-left: 0; margin-bottom: 0;">ID Barang</label>
+        </div>
+      </div>
+      <div class="row no-margin-bottom">
+        <div class="input-field col s8">
+          <input class="no-margin-bottom" id="nama-barang" type="text" class="validate">
+          <label for="nama-barang">Nama Barang</label>
+        </div>
+      </div>
+      <div class="row no-margin-bottom">
+        <div class="input-field col s8">
+          <input id="stok" type="text" class="validate">
+          <label for="stok">Stok</label>
+        </div>
+      </div>
+      <div class="row no-margin-bottom">
+        <div class="input-field col s8">
+          <input id="stok-opname" type="text" class="validate">
+          <label for="stok-opname">Stok Opname</label>
+        </div>
+      </div>
+      <div class="row no-margin-bottom">
+        <div class="input-field col s8">
+          <input id="harga-beli" type="text" class="validate">
+          <label for="harga-beli">Harga Beli</label>
+        </div>
+      </div>
+      <div class="row no-margin-bottom">
+        <div class="input-field col s8">
+          <input id="harga-jual" type="text" class="validate">
+          <label for="harga-jual">Harga Jual</label>
+        </div>
+      </div>
+      <div class="row no-margin-bottom">
+        <div class="input-field col s8">
+          <input id="id-merk" type="text" class="validate">
+          <label for="id-merk">ID Merk</label>
+        </div>
+      </div>
+      <div class="row no-margin-bottom">
+        <div class="input-field col s8">
+          <input id="kategori" type="text" class="validate">
+          <label for="kategori">Kategori</label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <div class="col s6">
+          <span class="modal-subtitle">Stok</span><br>
+          <span>20</span>
+        </div>
+        <div class="col s6">
+          <span class="modal-subtitle">Stop Opname</span><br>
+          <span>5</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s6">
+          <span class="modal-subtitle">Merk</span><br>
+          <span>Aqua</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <div class="col s6">
+          <span class="modal-subtitle">Harga Beli</span><br>
+          <span>Rp 90.000</span>
+        </div>
+        <div class="col s6">
+          <span class="modal-subtitle">Harga Jual</span><br>
+          <span>Rp 95.000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="js/dashboard.js">
+
+  </script>
+</body>
+</html>
