@@ -119,6 +119,9 @@ app.get('/delete/:iduser', (req, res) => {
       res.send(err)
     })
 })
+app.get('/data_pembelian', (req,res) => {
+  res.render('data_pembelian')
+})
 
 app.get('/all_user', auth, (req, res) => {
   db.collection('user').find().toArray((err, results) => {
