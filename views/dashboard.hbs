@@ -30,119 +30,85 @@
     </div>
   </div>
   <div class="row">
-    <div id="kiri" class="col s3">
-      <ul class="collection">
-        <li class="collection-item valign-wrapper" id="navigasi">Navigasi</li>
-        <li class="collection-item valign-wrapper">
-          <i class="material-icons bulet">home</i>
-          Dashboard
-        </li>
-        <li class="collection-item valign-wrapper active-colletion">
-          <i class="material-icons bulet">extension</i>
-          Data Barang
-        </li>
-        <li class="collection-item valign-wrapper">
-          <i class="material-icons bulet">add_shopping_cart</i>
-          Data Pengadaan Barang
-        </li>
-        <li class="collection-item valign-wrapper">
-          <i class="material-icons bulet">account_balance_wallet</i>
-          Data Pembayaran Barang
-        </li>
-      </ul>
+    <div id="kiri" class="col s3" style="background-color: white">
+      <div class="full-height">
+        <ul class="collection">
+          <li class="collection-item valign-wrapper" id="navigasi">Navigasi</li>
+          <li class="collection-item valign-wrapper active-collection">
+            <i class="material-icons bulet">home</i>
+            Dashboard
+          </li>
+          <li class="collection-item valign-wrapper">
+            <i class="material-icons bulet">extension</i>
+            Data Barang
+          </li>
+          <li class="collection-item valign-wrapper">
+            <i class="material-icons bulet">add_shopping_cart</i>
+            Data Pengadaan Barang
+          </li>
+          <li class="collection-item valign-wrapper">
+            <i class="material-icons bulet">account_balance_wallet</i>
+            Data Pembayaran Barang
+          </li>
+        </ul>
+      </div>
     </div>
     <div id="kanan" class="col s9">
-      <div id="header_right" class="valign-wrapper">
-        <div class="col s4" id="sub-judul">
-          <p>Data Barang</p>
-        </div>
-        <div class="col s7">
-          <form>
-            <div class="input-field valign-wrapper">
-              <label class="label-icon" for="search">
-                <i class="material-icons" id="search-icon">search</i>
-              </label>
-              <input id="search" type="search" onkeyup="searchTable()" placeholder="Cari data barang" required>
-              <i class="material-icons" id="close-icon" onclick="clearInput()">close</i>
+      <div class="row" id="dashboard-cards">
+        <div class="col s4">
+          <div class="card grey lighten-5">
+            <div class="card-content">
+              <p class="number-dashboard-card">324<p></span>Data Barang</span>
             </div>
-          </form>
+            <div class="card-action">
+              <div class="row" style="margin-bottom: 5px">
+                <a class="waves-effect waves-light btn-large col s12 btn-capitalize-text btn-round btn-dashboard" href="/data">Lihat Data Barang</a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col s5">
-          <a class="waves-effect btn sm-text-capitalize modal-trigger" href="#modal1" id="left-btn">Cetak data barang</a>
+        <div class="col s4">
+          <div class="card grey lighten-5">
+            <div class="card-content">
+              <p class="number-dashboard-card">203<p></span>Data Pengadaan Barang</span>
+            </div>
+            <div class="card-action">
+              <div class="row" style="margin-bottom: 5px">
+                <a class="waves-effect waves-light btn-large col s12 btn-capitalize-text btn-round btn-dashboard">Lihat Data Pengadaan</a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col s7" style="padding-left: 0">
-          <a class="waves-effect btn sm-text-capitalize" id="right-btn"><i class="material-icons right" id="add-icon">add</i>Tambah data barang</a>
+        <div class="col s4">
+          <div class="card grey lighten-5">
+            <div class="card-content">
+              <p class="number-dashboard-card">121<p></span>Data Pembayaran Barang</span>
+            </div>
+            <div class="card-action">
+              <div class="row" style="margin-bottom: 5px">
+                <a class="waves-effect waves-light btn-large col s12 btn-capitalize-text btn-round btn-dashboard">Lihat Data Pembayaran</a>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row">
-          <table class="bordered striped centered responsive-table" id="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nama Barang</th>
-                <th>Stok</th>
-                <th>Stok Opname</th>
-                <th>Kategori</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td>123</td>
-                <td>Lorem ipsum dolor sit amet </td>
-                <td>10</td>
-                <td>90</td>
-                <td>Obat</td>
-                <td class="aksi-icon-padding">
-                  <i class="material-icons aksi-icon">remove_red_eye</i>
-                  <i class="material-icons aksi-icon">mode_edit</i>
-                  <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>123</td>
-                <td>Cole Red</td>
-                <td>10</td>
-                <td>90</td>
-                <td>Obat</td>
-                <td class="aksi-icon-padding" >
-                  <i class="material-icons aksi-icon">remove_red_eye</i>
-                  <i class="material-icons aksi-icon">mode_edit</i>
-                  <i class="material-icons aksi-icon">delete</i>
-                </td>
-              </tr>
-              <tr>
-                <td>123</td>
-                <td>Cole Red</td>
-                <td>10</td>
-                <td>90</td>
-                <td>Obat</td>
-                <td class="aksi-icon-padding">
-                  <i class="material-icons aksi-icon">remove_red_eye</i>
-                  <i class="material-icons aksi-icon">mode_edit</i>
-                  <i class="material-icons aksi-icon">delete</i>
-                </td>
-              </tr>
-              <tr>
-                <td>123</td>
-                <td>Cole Red</td>
-                <td>10</td>
-                <td>90</td>
-                <td>Obat</td>
-                <td class="aksi-icon-padding">
-                    <i class="material-icons aksi-icon">remove_red_eye</i>
-                    <i class="material-icons aksi-icon">mode_edit</i>
-                    <i class="material-icons aksi-icon">delete</i>
-                </td>
-              </tr>
-            </tbody>
+        <div class="col s4">
+          <div class="card grey lighten-5">
+            <div class="card-content">
+              <p class="number-dashboard-card">324<p></span>Data Barang</span>
+            </div>
+            <div class="card-action">
+              <div class="row" style="margin-bottom: 5px">
+                <a class="waves-effect waves-light btn-large col s12 btn-capitalize-text btn-round btn-dashboard">Lihat Data Barang</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Modal Structure -->
-  <div id="modal1" class="modal">
+  <div id="cetak-barang" class="modal">
     <div class="modal-content">
       <div class="row modal-header valign-wrapper">
         <div class="col s5">
@@ -204,6 +170,7 @@
       </div>
     </div>
   </div>
+  <div id="background"></div>
 
   <!-- Modal Structure -->
   <div id="modal-delete" class="modal" >
