@@ -20,7 +20,7 @@
     <div class="col s3">
       <div id="welcome" class="valign-wrapper">
         <i id="img-orang" class="material-icons bulet">accessibility</i>
-        <span><span id="welcome-text">Selamat Datang,</span> Staf Gudang</span>
+        <span><span id="welcome-text">Selamat Datang,</span> {{user.role}}</span>
       </div>
     </div>
     <div class="col s6">
@@ -30,28 +30,17 @@
     </div>
   </div>
   <div class="row">
-    <div id="kiri" class="col s3" style="background-color: white">
-      <div class="full-height">
-        <ul class="collection">
-          <li class="collection-item valign-wrapper" id="navigasi">Navigasi</li>
-          <li class="collection-item valign-wrapper active-collection">
-            <i class="material-icons bulet">home</i>
-            Dashboard
-          </li>
-          <li class="collection-item valign-wrapper">
-            <i class="material-icons bulet">extension</i>
-            Data Barang
-          </li>
-          <li class="collection-item valign-wrapper">
-            <i class="material-icons bulet">add_shopping_cart</i>
-            Data Pengadaan Barang
-          </li>
-          <li class="collection-item valign-wrapper">
-            <i class="material-icons bulet">account_balance_wallet</i>
-            Data Pembayaran Barang
-          </li>
-        </ul>
-      </div>
+    <div id="kiri" class="col s3">
+      <ul class="collection">
+        <li class="collection-item valign-wrapper" id="navigasi">Navigasi</li>
+        {{#each navigasi}}
+          <a href="{{href}}" style="color: inherit">
+            <li class="collection-item valign-wrapper {{class}}">
+              <i class="material-icons bulet">{{icon}}</i> {{nama}}
+            </li>
+          </a>
+        {{/each}}
+      </ul>
     </div>
     <div id="kanan" class="col s9">
       <div class="row" id="dashboard-cards">

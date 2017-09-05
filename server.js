@@ -100,11 +100,61 @@ app.get('/logout', (req, res) => {
 })
 
 app.get('/dashboard', (req, res) => {
-  res.render('dashboard')
+  const navigasi =
+    [{
+      nama: 'Dashboard',
+      icon: 'home',
+      href: '#',
+      class: 'active-collection'
+    }, {
+      nama: 'Data Barang',
+      icon: 'extension',
+      href: '/data'
+    }, {
+      nama: 'Data Pengadaan Barang',
+      icon: 'add_shopping_cart',
+      href: '#'
+    }, {
+      nama: 'Data Pembayaran Barang',
+      icon: 'account_balance_wallet',
+      href: '#'
+    }
+  ]
+  res.render('dashboard', {
+    navigasi,
+    user: {
+      role: 'Staf Gudang'
+    }
+  })
 })
 
 app.get('/data', (req, res) => {
-  res.render('data')
+  const navigasi =
+    [{
+      nama: 'Dashboard',
+      icon: 'home',
+      href: '/dashboard'
+    }, {
+      nama: 'Data Barang',
+      icon: 'extension',
+      href: '#',
+      class: 'active-collection'
+    }, {
+      nama: 'Data Pengadaan Barang',
+      icon: 'add_shopping_cart',
+      href: '#'
+    }, {
+      nama: 'Data Pembayaran Barang',
+      icon: 'account_balance_wallet',
+      href: '#'
+    }
+  ]
+
+  res.render('data', { navigasi,
+    user: {
+      role: 'Staf Gudang'
+    }
+  })
 })
 
 app.get('/delete/:iduser', (req, res) => {
@@ -119,7 +169,7 @@ app.get('/delete/:iduser', (req, res) => {
       res.send(err)
     })
 })
-app.get('/data_pembelian', (req,res) => {
+app.get('/data_pembelian', (req, res) => {
   res.render('data_pembelian')
 })
 

@@ -5,7 +5,7 @@ html, body {
 }
 
 #header {
-  padding-bottom: 15px;
+  padding-bottom: 10px;
   margin-bottom: 0;
   padding-top: 10px;
   background-color: #ffffff;
@@ -110,11 +110,11 @@ li.collection-item {
 
 .active-collection {
   border-right: 4px solid #d95065 !important;
-  background-color: #f7f7f7;
+  background-color: #f7f7f7 !important;
 }
 
-.active-collection:hover {
-
+a > li {
+  border: 1px solid #E9E9E9
 }
 
 th {
