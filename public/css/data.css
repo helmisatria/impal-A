@@ -1,7 +1,9 @@
 #header {
-  margin-bottom: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 0;
   padding-top: 10px;
   background-color: #ffffff;
+  box-shadow: 0px 0px 2px #888;
 }
 
 #pic_pojok {
@@ -13,6 +15,10 @@
   margin: 0;
   background-color: #D95065;
   color: white;
+}
+
+a > li {
+  border: 1px solid #E9E9E9
 }
 
 #welcome-text {
@@ -41,6 +47,10 @@
 
 #kanan {
   padding: 0;
+}
+
+.small-label.text {
+  font-size: 0.5em !important
 }
 
 .middle {
@@ -98,12 +108,12 @@ li.collection-item {
   margin-left: 4%;
 }
 
-.active-colletion {
+.active-collection {
   border-right: 4px solid #d95065 !important;
+  background-color: #f7f7f7 !important;
 }
 
-.active-colletion:hover {
-  background-color: #f7f7f7;
+.active-collection:hover {
 }
 
 th {
@@ -143,7 +153,7 @@ td {
 }
 
 .modal-content {
-  padding: 0 !important;
+  /*padding:  !important;*/
 }
 
 #cetak-data-barang {
@@ -151,20 +161,38 @@ td {
 }
 
 #modal-new-barang {
-  width: 40% !important
+  /*width: 40% !important*/
 }
 
 .modal-title {
   font-size: 1.2em;
+  margin: 0
+}
+
+#content-cetak-data-barang {
+  padding: 17px 10px 0 30px !important
+}
+
+#btn-modal-submit {
+  background-color: #E73567;
+  text-transform: capitalize;
+}
+
+#btn-modal-submit:hover {
+  background-color: #ff3a6f;
+  text-transform: capitalize;
 }
 
 .modal-header {
-  padding: 5px 30px;
-  margin-bottom: 0 !important;
+  margin: 0 0 20px 0 !important;
 }
 
 .modal-middle-content {
   padding: 9px 30px;
+}
+
+.no-margin-left {
+  margin-left: 0 !important;
 }
 
 .divider {
