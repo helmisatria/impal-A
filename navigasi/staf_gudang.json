@@ -1,0 +1,17 @@
+[{
+  "nama": "Dashboard",
+  "icon": "home",
+  "href": "#"
+}, {
+  "nama": "Data Barang",
+  "icon": "extension",
+  "href": "#"
+}, {
+  "nama": "Data Pengadaan Barang",
+  "icon": "style",
+  "href": "#"
+}, {
+  "nama": "Data Pembayaran Barang",
+  "icon": "account_balance_wallet",
+  "href": "#"
+}]

@@ -55,34 +55,40 @@
             <i class="material-icons" id="close-icon" onclick="clearInput()">close</i>
           </div>
         </div>
-        <div class="col s5">
-          <a class="waves-effect btn sm-text-capitalize modal-trigger" href="#cetak-data-barang" id="left-btn">Cetak data barang</a>
+        <div class="col s6">
+          <a class="waves-effect btn sm-text-capitalize" id="cetak_data_barang_btn">Cetak data barang</a>
         </div>
         <div class="col s7" style="padding-left: 0">
           <a class="waves-effect btn sm-text-capitalize modal-trigger" id="right-btn" href="#modal-new-barang"><i class="material-icons right" id="add-icon">add</i>Tambah data barang</a>
         </div>
       </div>
       <div class="row">
-        <table class="bordered striped centered responsive-table" id="table">
+        <table class="bordered striped centered responsive-table" id="table_data">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nama Barang</th>
-              <th>Stok</th>
-              <th>Stok Opname</th>
-              <th>Kategori</th>
-              <th>Aksi</th>
+              {{#each dataTR}}
+                <th>{{tr}}</th>
+              {{/each}}
             </tr>
           </thead>
 
           <tbody>
             {{#each data}}
             <tr>
+              {{#if nama_barang}}
               <td class="data_td">{{_id}}</td>
               <td class="data_td">{{nama_barang}} </td>
               <td class="data_td">{{stok}}</td>
               <td class="data_td">{{stok_opname}}</td>
               <td class="data_td">{{kategori}}</td>
+              {{/if}}
+              {{#if username}}
+              <td class="data_td">{{_id}}</td>
+              <td class="data_td">{{username}} </td>
+              <td class="data_td">{{nama}}</td>
+              <td class="data_td">{{no_ktp}}</td>
+              <td class="data_td">{{role}}</td>
+              {{/if}}
               <td class="aksi-icon-padding">
                 <a class="modal-trigger cetak_data_barang_trigger" href="#cetak-data-barang"><i class="material-icons aksi-icon">remove_red_eye</i></a>
                 <a class="modal-trigger edit_data_barang_trigger" href="#modal-edit-barang"><i class="material-icons aksi-icon">mode_edit</i></a>
@@ -95,7 +101,6 @@
       </div>
     </div>
   </div>
-
 
   {{> modal_cetak_data_barang}}
 
@@ -110,11 +115,12 @@
   <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="js/sweetalert.min.js"></script>
   <script type="text/javascript" src="js/dashboard.js"></script>
   <script type="text/javascript" src="js/tambah_data_barang.js"></script>
   <script type="text/javascript" src="js/edit_data_barang.js"></script>
   <script type="text/javascript" src="js/cetak_data_barang.js"></script>
   <script type="text/javascript" src="js/hapus_data_barang.js"></script>
-  <script type="text/javascript" src="js/sweetalert.min.js"></script>
+  <script type="text/javascript" src="js/table_to_excel.js"></script>
 </body>
 </html>

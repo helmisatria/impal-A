@@ -27,7 +27,7 @@ app.use(session({
   secret: 'bismillahsemogaimpaldapetA',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 15000 },
+  cookie: { maxAge: 600000 },
 }))
 
 // middleware function to check for logged-in users
@@ -46,6 +46,14 @@ MongoClient.connect(url)
   .catch(() => {
     console.log('Gagal connect ke database!');
   })
+
+// NAVIGASI
+const navigasiStafGudang = require('./navigasi/staf_gudang')
+const navigasiAdmin = require('./navigasi/admin');
+
+// TABLE ROW
+const tableRowAdmin = require('./tablerow/admin');
+const tableRowStafGudang = require('./tablerow/staf_gudang');
 
 app.get('/', (req, res) => {
   console.log(req.session);
@@ -100,72 +108,55 @@ app.get('/logout', (req, res) => {
 })
 
 app.get('/dashboard', (req, res) => {
-  const navigasi =
-    [{
-      nama: 'Dashboard',
-      icon: 'home',
-      href: '#',
-      class: 'active-collection'
-    }, {
-      nama: 'Data Barang',
-      icon: 'extension',
-      href: '/data'
-    }, {
-      nama: 'Data Pengadaan Barang',
-      icon: 'add_shopping_cart',
-      href: '#'
-    }, {
-      nama: 'Data Pembayaran Barang',
-      icon: 'account_balance_wallet',
-      href: '#'
-    }
-  ]
+  const { user } = req.session
+  let navigasi
+
+  if (user.role === 'Staf Gudang') {
+    navigasi = navigasiStafGudang
+  } else if (user.role === 'Admin') {
+    navigasi = navigasiAdmin
+  }
+  navigasi[0].class = 'active-collection'
+  navigasi[1].class = ''
+  navigasi[1].href = '/data'
 
   res.render('dashboard', {
     navigasi,
-    user: {
-      role: 'Staf Gudang'
-    }
+    user: req.session.user
   })
 })
 
 app.get('/data', (req, res) => {
-  const navigasi =
-    [{
-      nama: 'Dashboard',
-      icon: 'home',
-      href: '/dashboard'
-    }, {
-      nama: 'Data Barang',
-      icon: 'extension',
-      href: '#',
-      class: 'active-collection'
-    }, {
-      nama: 'Data Pengadaan Barang',
-      icon: 'add_shopping_cart',
-      href: '#'
-    }, {
-      nama: 'Data Pembayaran Barang',
-      icon: 'account_balance_wallet',
-      href: '#'
-    }
-  ]
+  const { user } = req.session
+  let navigasi
+  let dataTR
+  let collection
 
-  db.collection('barang').find({}).sort({ _id: -1 }).toArray()
+  if (user.role === 'Staf Gudang') {
+    navigasi = navigasiStafGudang
+    dataTR = tableRowStafGudang
+    collection = 'barang'
+  } else if (user.role === 'Admin') {
+    navigasi = navigasiAdmin
+    dataTR = tableRowAdmin
+    collection = 'user'
+  }
+  navigasi[0].href = '/dashboard'
+  navigasi[1].class = 'active-collection'
+  navigasi[0].class = ''
+
+  db.collection(collection).find({}).sort({ _id: -1 }).toArray()
     .then((data) => {
       res.render('data', { navigasi,
-        user: {
-          role: 'Staf Gudang'
-        },
-        data
+        user: req.session.user,
+        data,
+        dataTR
       })
     })
 })
 
 app.post('/edit_data_barang', (req, res) => {
   const { body } = req
-  console.log(body);
-  console.log('body.data.nama_barang', body['data[nama_barang]']);
   db.collection('barang').findOneAndUpdate({ _id: ObjectId(body.id_barang) }, {
     $set: {
       nama_barang: body['data[nama_barang]']
@@ -208,6 +199,16 @@ app.post('/get_data_barang', (req, res) => {
     })
 })
 
+app.post('/get_count_dashboard', (req, res) => {
+  db.collection('barang').find({}).count()
+    .then((result) => {
+      res.status(200).send({ data_barang: result })
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+})
+
 app.post('/tambah_data_barang', (req, res) => {
   const { body } = req
 
@@ -219,14 +220,6 @@ app.post('/tambah_data_barang', (req, res) => {
     .catch((e) => {
       res.status(400).send(e)
     })
-})
-
-app.post('/update_data_barang', (req, res) => {
-  const { body } = req
-
-  // db.collection('barang').findOneAndUpdate(body, {
-  //   $set:
-  // })
 })
 
 app.get('/delete/:iduser', (req, res) => {
@@ -242,11 +235,11 @@ app.get('/delete/:iduser', (req, res) => {
     })
 })
 
-app.get('/keuangan', auth, (req, res) => {
+app.get('/keuangan', (req, res) => {
   res.render('keuangan')
 })
 
-app.get('/all_user', auth, (req, res) => {
+app.get('/all_user', (req, res) => {
   db.collection('user').find().toArray((err, results) => {
     if (err) console.log('Gagal mencari');
     res.send(results)
