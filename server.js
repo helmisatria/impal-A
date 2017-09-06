@@ -120,6 +120,7 @@ app.get('/dashboard', (req, res) => {
       href: '#'
     }
   ]
+
   res.render('dashboard', {
     navigasi,
     user: {
@@ -150,11 +151,82 @@ app.get('/data', (req, res) => {
     }
   ]
 
-  res.render('data', { navigasi,
-    user: {
-      role: 'Staf Gudang'
-    }
+  db.collection('barang').find({}).sort({ _id: -1 }).toArray()
+    .then((data) => {
+      res.render('data', { navigasi,
+        user: {
+          role: 'Staf Gudang'
+        },
+        data
+      })
+    })
+})
+
+app.post('/edit_data_barang', (req, res) => {
+  const { body } = req
+  console.log(body);
+  console.log('body.data.nama_barang', body['data[nama_barang]']);
+  db.collection('barang').findOneAndUpdate({ _id: ObjectId(body.id_barang) }, {
+    $set: {
+      nama_barang: body['data[nama_barang]']
+    },
+  }, {
+    upsert: true,
+    new: true
   })
+  .then((result) => {
+    if (result) return res.status(200).send(result)
+    return res.status(400).send('Gagal Edit Data Barang')
+  })
+  .catch((e) => {
+    res.status(400).send(e)
+  })
+})
+
+app.post('/hapus_data_barang', (req, res) => {
+  const { body } = req
+
+  db.collection('barang').findOneAndDelete({ _id: ObjectId(body.id_barang) })
+    .then((result) => {
+      if (result) return res.status(200).send(result)
+      res.status(400).send('Barang Tidak Ditemukan')
+    })
+    .catch((e) => {
+      res.status(400).send(e)
+    })
+})
+
+app.post('/get_data_barang', (req, res) => {
+  const { body } = req
+  db.collection('barang').findOne({ _id: ObjectId(body.id_barang) })
+    .then((result) => {
+      if (result) return res.status(200).send(result)
+      return res.status(400).send('Tidak Ditemukan')
+    })
+    .catch((e) => {
+      res.status(400).send({ responseText: e })
+    })
+})
+
+app.post('/tambah_data_barang', (req, res) => {
+  const { body } = req
+
+  db.collection('barang').insertOne(body)
+    .then((result) => {
+      if (result) return res.status(200).send({ responseText: 'Tambah Barang Baru Berhasil' })
+      res.status(400).send()
+    })
+    .catch((e) => {
+      res.status(400).send(e)
+    })
+})
+
+app.post('/update_data_barang', (req, res) => {
+  const { body } = req
+
+  // db.collection('barang').findOneAndUpdate(body, {
+  //   $set:
+  // })
 })
 
 app.get('/delete/:iduser', (req, res) => {
@@ -169,8 +241,9 @@ app.get('/delete/:iduser', (req, res) => {
       res.send(err)
     })
 })
-app.get('/data_pembelian', (req, res) => {
-  res.render('data_pembelian')
+
+app.get('/keuangan', auth, (req, res) => {
+  res.render('keuangan')
 })
 
 app.get('/all_user', auth, (req, res) => {

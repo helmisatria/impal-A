@@ -6,6 +6,7 @@
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
   <link rel="stylesheet" href="css/data.css">
+  <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
@@ -46,15 +47,13 @@
           <p>Data Barang</p>
         </div>
         <div class="col s7">
-          <!-- <form> -->
-            <div class="input-field valign-wrapper">
-              <label class="label-icon" for="search">
-                <i class="material-icons" id="search-icon">search</i>
-              </label>
-              <input id="search" type="search" onkeyup="searchTable()" placeholder="Cari data barang" required>
-              <i class="material-icons" id="close-icon" onclick="clearInput()">close</i>
-            </div>
-          <!-- </form> -->
+          <div class="input-field valign-wrapper">
+            <label class="label-icon" for="search">
+              <i class="material-icons" id="search-icon">search</i>
+            </label>
+            <input id="search" type="search" onkeyup="searchTable()" placeholder="Cari data barang" required>
+            <i class="material-icons" id="close-icon" onclick="clearInput()">close</i>
+          </div>
         </div>
         <div class="col s5">
           <a class="waves-effect btn sm-text-capitalize modal-trigger" href="#cetak-data-barang" id="left-btn">Cetak data barang</a>
@@ -77,63 +76,32 @@
           </thead>
 
           <tbody>
+            {{#each data}}
             <tr>
-              <td>123</td>
-              <td>Lorem ipsum dolor sit amet </td>
-              <td>10</td>
-              <td>90</td>
-              <td>Obat</td>
+              <td class="data_td">{{_id}}</td>
+              <td class="data_td">{{nama_barang}} </td>
+              <td class="data_td">{{stok}}</td>
+              <td class="data_td">{{stok_opname}}</td>
+              <td class="data_td">{{kategori}}</td>
               <td class="aksi-icon-padding">
-                <a class="modal-trigger" href="#cetak-data-barang"><i class="material-icons aksi-icon">remove_red_eye</i></a>
-                <a class="modal-trigger" href="#modal-edit-barang"><i class="material-icons aksi-icon">mode_edit</i></a>
-                <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
+                <a class="modal-trigger cetak_data_barang_trigger" href="#cetak-data-barang"><i class="material-icons aksi-icon">remove_red_eye</i></a>
+                <a class="modal-trigger edit_data_barang_trigger" href="#modal-edit-barang"><i class="material-icons aksi-icon">mode_edit</i></a>
+                <a class="modal-trigger hapus_data_barang_trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
               </td>
             </tr>
-            <tr>
-              <td>123</td>
-              <td>Cole Red</td>
-              <td>10</td>
-              <td>90</td>
-              <td>Obat</td>
-              <td class="aksi-icon-padding" >
-                <a class="modal-trigger" href="#cetak-data-barang"><i class="material-icons aksi-icon">remove_red_eye</i></a>
-                <a class="modal-trigger" href="#modal-edit-barang"><i class="material-icons aksi-icon">mode_edit</i></a>
-                <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>123</td>
-              <td>Cole Red</td>
-              <td>10</td>
-              <td>90</td>
-              <td>Obat</td>
-              <td class="aksi-icon-padding">
-                <a class="modal-trigger" href="#cetak-data-barang"><i class="material-icons aksi-icon">remove_red_eye</i></a>
-                <a class="modal-trigger" href="#modal-edit-barang"><i class="material-icons aksi-icon">mode_edit</i></a>
-                <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>123</td>
-              <td>Cole Red</td>
-              <td>10</td>
-              <td>90</td>
-              <td>Obat</td>
-              <td class="aksi-icon-padding">
-                <a class="modal-trigger" href="#cetak-data-barang"><i class="material-icons aksi-icon">remove_red_eye</i></a>
-                <a class="modal-trigger" href="#modal-edit-barang"><i class="material-icons aksi-icon">mode_edit</i></a>
-                <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
-              </td>
-            </tr>
+            {{/each}}
           </tbody>
         </table>
       </div>
     </div>
   </div>
 
+
   {{> modal_cetak_data_barang}}
 
   {{> modal_delete_notification}}
+
+  {{> modal_success_notification}}
 
   {{> modal_tambah_data_barang}}
 
@@ -142,8 +110,11 @@
   <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
-  <script type="text/javascript" src="js/dashboard.js">
-
-  </script>
+  <script type="text/javascript" src="js/dashboard.js"></script>
+  <script type="text/javascript" src="js/tambah_data_barang.js"></script>
+  <script type="text/javascript" src="js/edit_data_barang.js"></script>
+  <script type="text/javascript" src="js/cetak_data_barang.js"></script>
+  <script type="text/javascript" src="js/hapus_data_barang.js"></script>
+  <script type="text/javascript" src="js/sweetalert.min.js"></script>
 </body>
 </html>
