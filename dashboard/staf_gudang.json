@@ -1,0 +1,23 @@
+[
+  {
+    "text": "Data Barang",
+    "text_btn": "Lihat Data Barang",
+    "href": "/data",
+    "id": "dashboard_lihat_data_barang",
+    "urlParameter": "barang"
+  },
+  {
+    "text": "Data Pengadaan Barang",
+    "text_btn": "Lihat Data Pengadaan",
+    "id": "dashboard_lihat_data_pengadaan",
+    "href": "#",
+    "urlParameter": "pengadaan"
+  },
+  {
+    "text": "Data Pembayaran Barang",
+    "text_btn": "Lihat Data Pembayaran",
+    "id": "dashboard_lihat_data_pembayaran",
+    "href": "#",
+    "urlParameter": "pembayaran"
+  }
+]

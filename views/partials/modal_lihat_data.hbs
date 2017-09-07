@@ -1,0 +1,70 @@
+  <!-- Modal Structure -->
+  <div id="modal-lihat-data" class="modal">
+    <div class="modal-content" id="content-modal-lihat-data">
+      <div class="row modal-header valign-wrapper">
+        <div class="col s5">
+          <p class="modal-title">Detail Data Barang</p>
+        </div>
+        <div class="col s6">
+          <a id="button-modal-title" class="waves-effect waves-light btn right">Cetak Laporan</a>
+        </div>
+        <div class="col s2">
+          <i id="close-icon" class="material-icons right modal-action modal-close" style="color: #BFBFBF">close</i>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="modal-middle-content">
+      <div class="row" style="margin-top: 30px">
+        <div class="col s6">
+          <span class="modal-subtitle">{{dataContent.modals.unique.0.text}}</span><br>
+          <span id="{{dataContent.modals.unique.0.field}}_lihat">--</span>
+        </div>
+        <div class="col s6">
+          <span class="modal-subtitle">{{dataContent.modals.unique.1.text}}</span><br>
+          <span id="{{dataContent.modals.unique.1.field}}_lihat">--</span>
+        </div>
+      </div>
+      <div class="divider" style="margin-bottom: 30px"></div>
+      <div class="row">
+        {{#each dataContent.modals.edit}}
+          <div class="col s6" style="margin-bottom: 30px">
+            <span class="modal-subtitle">{{text}}</span><br>
+            <span id="{{field}}_lihat">-</span>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(".lihat_data_trigger").on('click', function(e) {
+      $(this).parent().closest('tr').each(function(index, tr){
+        data = $('td', tr).map(function(index, td) {
+          return $(td).text();
+        });
+      })
+
+      const url = '/get_data/{{collection}}'
+
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: {id: data[0]}, // serializes the form's elements.
+        statusCode: {
+          400: function(data) {
+            alert(data.responseText)
+          },
+          200: function(data) {
+            $('#{{dataContent.modals.unique.0.field}}_lihat').text(data._id)
+            $('#{{dataContent.modals.unique.1.field}}_lihat').text(data.{{dataContent.modals.unique.1.field}})
+            {{#each dataContent.modals.edit}}
+              $('#{{field}}_lihat').text(data.{{field}})
+            {{/each}}
+          }
+        }
+      });
+
+      Materialize.updateTextFields();
+    });
+  </script>

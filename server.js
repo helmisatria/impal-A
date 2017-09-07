@@ -36,6 +36,15 @@ const auth = (req, res, next) => {
   return res.status(403).redirect('login')
 }
 
+const isAdmin = (req, res, next) => {
+  if (req.cookies.xsecret && req.session.user) {
+    if (req.session.user.role === 'Admin') {
+      return next()
+    }
+  }
+  return res.status(403).redirect('/dashboard')
+}
+
 let db
 
 MongoClient.connect(url)
@@ -50,28 +59,38 @@ MongoClient.connect(url)
 // NAVIGASI
 const navigasiStafGudang = require('./navigasi/staf_gudang')
 const navigasiAdmin = require('./navigasi/admin');
+const navigasiAdminKelolaBarang = require('./navigasi/admin_kelola_barang');
 
 // TABLE ROW
-const tableRowAdmin = require('./tablerow/admin');
-const tableRowStafGudang = require('./tablerow/staf_gudang');
+const tableRowAdmin = require('./dashboard/tablerow/admin');
+const tableRowStafGudang = require('./dashboard/tablerow/staf_gudang');
+const tableRowAdminKelolaRole = require('./dashboard/tablerow/adminKelolaRole');
+
+// DASHBOARD
+const dashboardAdmin = require('./dashboard/admin');
+const dashboardStafGudang = require('./dashboard/staf_gudang');
+
+// DATA HEADER CONTENT
+const dataContentAdmin = require('./dataContent/admin');
+const dataContentAdminKelolaRole = require('./dataContent/adminKelolaRole');
+const dataContentStafGudang = require('./dataContent/staf_gudang');
 
 app.get('/', (req, res) => {
-  console.log(req.session);
   if (req.session.user) {
     return res.send({ message: 'hello, You are connected!', user: req.session.user })
   }
-  res.send({ message: 'hello, You are connected!' })
+  res.redirect('/login')
 })
 
 app.get('/login', (req, res) => {
   if (req.session.user) {
-    return res.redirect('/')
+    return res.redirect('/dashboard')
   }
   res.render('login')
 })
 
 app.post('/login', (req, res) => {
-  if (req.session.user) res.redirect('/')
+  if (req.session.user) res.redirect('/data')
   const { username, password } = req.body
   db.collection('user').findOne({ username, password })
   .then((result) => {
@@ -107,77 +126,90 @@ app.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-app.get('/dashboard', (req, res) => {
+app.get('/dashboard', auth, (req, res) => {
   const { user } = req.session
+
   let navigasi
+  let dashboardContent
 
   if (user.role === 'Staf Gudang') {
     navigasi = navigasiStafGudang
+    dashboardContent = dashboardStafGudang
   } else if (user.role === 'Admin') {
     navigasi = navigasiAdmin
+    dashboardContent = dashboardAdmin
   }
   navigasi[0].class = 'active-collection'
   navigasi[1].class = ''
   navigasi[1].href = '/data'
+  navigasi[2].href = '/kelola_role'
 
   res.render('dashboard', {
     navigasi,
-    user: req.session.user
+    user: req.session.user,
+    dashboardContent
   })
 })
 
-app.get('/data', (req, res) => {
+app.get('/data', auth, (req, res) => {
   const { user } = req.session
   let navigasi
   let dataTR
   let collection
+  let dataContent
 
   if (user.role === 'Staf Gudang') {
     navigasi = navigasiStafGudang
     dataTR = tableRowStafGudang
+    dataContent = dataContentStafGudang
     collection = 'barang'
   } else if (user.role === 'Admin') {
     navigasi = navigasiAdmin
     dataTR = tableRowAdmin
+    dataContent = dataContentAdmin
     collection = 'user'
   }
   navigasi[0].href = '/dashboard'
-  navigasi[1].class = 'active-collection'
   navigasi[0].class = ''
+  navigasi[1].class = 'active-collection'
+  navigasi[2].href = '/kelola_role'
 
   db.collection(collection).find({}).sort({ _id: -1 }).toArray()
     .then((data) => {
-      res.render('data', { navigasi,
+      res.render('data',
+      {
+        navigasi,
         user: req.session.user,
         data,
-        dataTR
+        dataTR,
+        dataContent,
+        collection
       })
     })
 })
 
-app.post('/edit_data_barang', (req, res) => {
+app.post('/edit_data/:collection/:fieldCount', (req, res) => {
   const { body } = req
-  db.collection('barang').findOneAndUpdate({ _id: ObjectId(body.id_barang) }, {
-    $set: {
-      nama_barang: body['data[nama_barang]']
-    },
-  }, {
-    upsert: true,
-    new: true
-  })
-  .then((result) => {
-    if (result) return res.status(200).send(result)
-    return res.status(400).send('Gagal Edit Data Barang')
-  })
-  .catch((e) => {
-    res.status(400).send(e)
-  })
+  const { collection, fieldCount } = req.params
+  console.log({ body });
+  for (let i = 0; i < fieldCount; i++) {
+    db.collection(collection).findOneAndUpdate({ _id: ObjectId(body.id) }, {
+      $set: {
+        [body[`data[${i}][name]`]]: body[`data[${i}][value]`]
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+  }
+  return res.status(200).send()
 })
 
-app.post('/hapus_data_barang', (req, res) => {
+app.post('/delete_data/:collection', (req, res) => {
   const { body } = req
+  const { collection } = req.params
 
-  db.collection('barang').findOneAndDelete({ _id: ObjectId(body.id_barang) })
+  db.collection(collection).findOneAndDelete({ _id: ObjectId(body.id) })
     .then((result) => {
       if (result) return res.status(200).send(result)
       res.status(400).send('Barang Tidak Ditemukan')
@@ -187,10 +219,12 @@ app.post('/hapus_data_barang', (req, res) => {
     })
 })
 
-app.post('/get_data_barang', (req, res) => {
+app.post('/get_data/:collection', (req, res) => {
   const { body } = req
-  db.collection('barang').findOne({ _id: ObjectId(body.id_barang) })
+  const { collection } = req.params
+  db.collection(`${collection}`).findOne({ _id: ObjectId(body.id) })
     .then((result) => {
+      console.log(result);
       if (result) return res.status(200).send(result)
       return res.status(400).send('Tidak Ditemukan')
     })
@@ -199,50 +233,67 @@ app.post('/get_data_barang', (req, res) => {
     })
 })
 
-app.post('/get_count_dashboard', (req, res) => {
-  db.collection('barang').find({}).count()
+app.post('/get_count_dashboard/:parameter', (req, res) => {
+  const data = []
+
+  db.collection(`${req.params.parameter}`).find({}).count()
     .then((result) => {
-      res.status(200).send({ data_barang: result })
+      data.push(result)
+      res.status(200).send({ data })
     })
     .catch((e) => {
       console.log(e);
     })
 })
 
-app.post('/tambah_data_barang', (req, res) => {
+app.post('/create_data/:collection', (req, res) => {
   const { body } = req
-
-  db.collection('barang').insertOne(body)
-    .then((result) => {
-      if (result) return res.status(200).send({ responseText: 'Tambah Barang Baru Berhasil' })
-      res.status(400).send()
+  const { collection } = req.params
+  if (collection === 'user') {
+    return db.collection(collection).findOne({ username: body.username }, (err, result) => {
+      if (result) return res.status(400).send({ responseText: 'Username Tidak Tersedia' })
+      db.collection(collection).insertOne(body)
+      .then((insertResult) => {
+        if (insertResult) res.status(200).send({ responseText: 'Tambah User Baru Berhasil' })
+      })
     })
-    .catch((e) => {
-      res.status(400).send(e)
-    })
+  }
+  db.collection(collection).insertOne(body)
+  .then((result) => {
+    if (result) return res.status(200).send({ responseText: 'Tambah Barang Baru Berhasil' })
+    res.status(400).send()
+  })
+  .catch((e) => {
+    res.status(400).send(e)
+  })
 })
 
-app.get('/delete/:iduser', (req, res) => {
-  const id = ObjectId(req.params.iduser)
-  // const id = req.params.iduser
-  db.collection('user').deleteOne({ _id: id })
-    .then((result) => {
-      // console.log(result);
-      res.send(result)
-    })
-    .catch((err) => {
-      res.send(err)
+app.get('/kelola_role', isAdmin, (req, res) => {
+  const navigasi = navigasiAdminKelolaBarang
+  const dataTR = tableRowAdminKelolaRole
+  const dataContent = dataContentAdminKelolaRole
+
+  navigasi[0].href = '/dashboard'
+  navigasi[1].href = '/data'
+  navigasi[2].href = '#'
+  navigasi[2].class = 'active-collection'
+
+  db.collection('user').find({}).sort({ _id: -1 }).toArray()
+    .then((data) => {
+      res.render('kelola_role', {
+        navigasi,
+        dataTR,
+        dataContent,
+        data
+      })
     })
 })
 
 app.get('/keuangan', (req, res) => {
-  res.render('keuangan')
-})
+  const navigasi = navigasiAdminKelolaBarang
 
-app.get('/all_user', (req, res) => {
-  db.collection('user').find().toArray((err, results) => {
-    if (err) console.log('Gagal mencari');
-    res.send(results)
+  res.render('keuangan', {
+    navigasi
   })
 })
 

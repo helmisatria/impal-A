@@ -1,0 +1,36 @@
+{
+  "title": "Data Role Petugas",
+  "admin": true,
+  "btn-left": null,
+  "btn-right": null,
+  "search": false,
+  "modals" : {
+    "unique" : {
+      "0": {
+        "text": "ID User",
+        "field": "_id"
+      },
+      "1": {
+        "text": "Username",
+        "field": "username"
+      },
+      "2": {
+        "text": "Password",
+        "field": "password"
+      }
+    },
+    "edit": [{
+      "text": "Nama",
+      "field": "nama_user"
+    }, {
+      "text": "No. KTP",
+      "field": "no_ktp_user"
+    }, {
+      "text": "Role",
+      "field": "role"
+    }, {
+      "text": "Alamat",
+      "field": "alamat_user"
+    }]
+  }
+}

@@ -1,0 +1,87 @@
+<!-- Modal Create New Data -->
+<div id="modal-create-data" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <form id="create_data">
+      <div class="row modal-header valign-wrapper">
+        <div class="col s12" style="margin-left: 0">
+          <p class="modal-title">Tambah Data Barang</p>
+        </div>
+        <div class="col s2">
+          <i id="close-icon" class="material-icons right modal-action modal-close" style="color: #BFBFBF">close</i>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="row" style="margin-bottom: 0">
+        <div class="input-field col s6">
+          <input disabled value="--" id="disabled" type="text" class="validate">
+          <label class="no-margin-left" for="disabled">{{dataContent.modals.unique.0.text}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="{{dataContent.modals.unique.1.field}}" type="text" name="{{dataContent.modals.unique.1.field}}" class="validate" required>
+          <label class="no-margin-left label-hover" for="{{dataContent.modals.unique.1.field}}">{{dataContent.modals.unique.1.text}}</label>
+        </div>
+        {{#if dataContent.admin}}
+        <div class="input-field col s12">
+          <input id="{{dataContent.modals.unique.2.field}}" type="password" name="{{dataContent.modals.unique.2.field}}" class="validate" required>
+          <label class="no-margin-left label-hover" for="{{dataContent.modals.unique.2.field}}">{{dataContent.modals.unique.2.text}}</label>
+        </div>
+        {{/if}}
+      </div>
+      <div class="row">
+        {{#each dataContent.modals.edit}}
+        <div class="input-field col s6">
+          <input id="{{field}}" type="text" name="{{field}}" class="validate" required>
+          <label class="no-margin-left" for="{{field}}">{{text}}</label>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="waves-effect waves-light btn left modal-action modal-close" id="btn-modal-submit" type="submit" style="margin: 5px 0 0 30px">simpan</button>
+    </div>
+  </form>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+  $("#create_data").submit(function(e) {
+    var url = "/create_data/{{collection}}"; // the script where you handle the form input.
+
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: $("#create_data").serialize(), // serializes the form's elements.
+      statusCode: {
+        400: function(data) {
+          console.log(data);
+          swal({
+            title: "",
+            text: data.responseJSON.responseText,
+            type: "error",
+            confirmButtonText: "Ok, Terimakasih"
+          }, () => {
+            $('#modal-create-data').modal('close')
+          })
+        },
+        200: function(data) {
+          swal({
+            title: "",
+            text: data.responseText,
+            type: "success",
+            confirmButtonText: "Ok, Terimakasih",
+          }, () => {
+            $('#modal-create-data').modal('close');
+            setTimeout(() => {
+              location.reload()
+            }, 300)
+          });
+        }
+      }
+    });
+
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+  });
+
+</script>

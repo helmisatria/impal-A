@@ -2,6 +2,7 @@ html, body {
     background-image: linear-gradient(to right, white, white 10%, #F0F0F0 70%, #F0F0F0);
     background-size: cover;
     background-repeat: no-repeat;
+    height: 100% !important;
 }
 
 #header {
@@ -161,7 +162,7 @@ td {
   width: 40% !important
 }
 
-#modal-new-barang {
+#modal-create-data {
   width: 40% !important
 }
 

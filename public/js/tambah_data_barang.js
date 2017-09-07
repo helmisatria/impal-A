@@ -1,10 +1,10 @@
-$("#tambah_data_barang").submit(function(e) {
-  var url = "/tambah_data_barang"; // the script where you handle the form input.
+$("#create_data").submit(function(e) {
+  var url = "/create_data"; // the script where you handle the form input.
 
   $.ajax({
     type: "POST",
     url: url,
-    data: $("#tambah_data_barang").serialize(), // serializes the form's elements.
+    data: $("#create_data").serialize(), // serializes the form's elements.
     statusCode: {
       400: function(data) {
         alert(data.responseText)
@@ -16,7 +16,7 @@ $("#tambah_data_barang").submit(function(e) {
           type: "success",
           confirmButtonText: "Ok, Terimakasih",
         }, () => {
-          $('#modal-new-barang').modal('close');
+          $('#modal-create-data').modal('close');
           setTimeout(() => {
             location.reload()
           }, 300)

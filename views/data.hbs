@@ -44,7 +44,7 @@
     <div id="kanan" class="col s9">
       <div id="header_right" class="valign-wrapper">
         <div class="col s4" id="sub-judul">
-          <p>Data Barang</p>
+          <p>{{dataContent.title}}</p>
         </div>
         <div class="col s7">
           <div class="input-field valign-wrapper">
@@ -55,11 +55,11 @@
             <i class="material-icons" id="close-icon" onclick="clearInput()">close</i>
           </div>
         </div>
-        <div class="col s6">
-          <a class="waves-effect btn sm-text-capitalize" id="cetak_data_barang_btn">Cetak data barang</a>
+        <div class="col s6 l5">
+          <a class="waves-effect btn sm-text-capitalize" id="cetak_data_barang_btn">{{dataContent.btn-left}}</a>
         </div>
         <div class="col s7" style="padding-left: 0">
-          <a class="waves-effect btn sm-text-capitalize modal-trigger" id="right-btn" href="#modal-new-barang"><i class="material-icons right" id="add-icon">add</i>Tambah data barang</a>
+          <a class="waves-effect btn sm-text-capitalize modal-trigger" id="right-btn" href="#modal-create-data"><i class="material-icons right" id="add-icon">add</i>{{dataContent.btn-right}}</a>
         </div>
       </div>
       <div class="row">
@@ -76,23 +76,23 @@
             {{#each data}}
             <tr>
               {{#if nama_barang}}
-              <td class="data_td">{{_id}}</td>
-              <td class="data_td">{{nama_barang}} </td>
-              <td class="data_td">{{stok}}</td>
-              <td class="data_td">{{stok_opname}}</td>
-              <td class="data_td">{{kategori}}</td>
+                <td class="data_td">{{_id}}</td>
+                <td class="data_td">{{nama_barang}}</td>
+                <td class="data_td">{{stok}}</td>
+                <td class="data_td">{{stok_opname}}</td>
+                <td class="data_td">{{kategori}}</td>
               {{/if}}
               {{#if username}}
-              <td class="data_td">{{_id}}</td>
-              <td class="data_td">{{username}} </td>
-              <td class="data_td">{{nama}}</td>
-              <td class="data_td">{{no_ktp}}</td>
-              <td class="data_td">{{role}}</td>
+                <td class="data_td">{{_id}}</td>
+                <td class="data_td">{{username}}</td>
+                <td class="data_td">{{nama_user}}</td>
+                <td class="data_td">{{no_ktp_user}}</td>
+                <td class="data_td">{{role}}</td>
               {{/if}}
               <td class="aksi-icon-padding">
-                <a class="modal-trigger cetak_data_barang_trigger" href="#cetak-data-barang"><i class="material-icons aksi-icon">remove_red_eye</i></a>
-                <a class="modal-trigger edit_data_barang_trigger" href="#modal-edit-barang"><i class="material-icons aksi-icon">mode_edit</i></a>
-                <a class="modal-trigger hapus_data_barang_trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
+                <a class="modal-trigger lihat_data_trigger" href="#modal-lihat-data"><i class="material-icons aksi-icon">remove_red_eye</i></a>
+                <a class="modal-trigger edit_data_trigger" href="#modal-edit-data"><i class="material-icons aksi-icon">mode_edit</i></a>
+                <a class="modal-trigger delete_data_trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
               </td>
             </tr>
             {{/each}}
@@ -102,25 +102,16 @@
     </div>
   </div>
 
-  {{> modal_cetak_data_barang}}
+  <!-- declare let data at delete notification partials -->
+  {{> modal_delete_notification this}}
+  {{> modal_lihat_data this}}
+  {{> modal_create_data this}}
+  {{> modal_edit_data this}}
 
-  {{> modal_delete_notification}}
-
-  {{> modal_success_notification}}
-
-  {{> modal_tambah_data_barang}}
-
-  {{> modal_edit_data_barang}}
-
-  <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script type="text/javascript" src="js/sweetalert.min.js"></script>
-  <script type="text/javascript" src="js/dashboard.js"></script>
-  <script type="text/javascript" src="js/tambah_data_barang.js"></script>
-  <script type="text/javascript" src="js/edit_data_barang.js"></script>
-  <script type="text/javascript" src="js/cetak_data_barang.js"></script>
-  <script type="text/javascript" src="js/hapus_data_barang.js"></script>
+  <script type="text/javascript" src="js/dashboard/dashboard.js"></script>
   <script type="text/javascript" src="js/table_to_excel.js"></script>
 </body>
 </html>
