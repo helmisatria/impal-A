@@ -18,9 +18,53 @@
     </div>
     <div class="row" style="margin-bottom: 50px">
       <div class="col s12">
-        <a id="batalkan-btn" class="waves-effect waves-light btn btn-flat">Batalkan</a>
-        <a id="saya-yakin-btn"class="waves-effect waves-light btn red-btn">Ya, Saya Yakin</a>
+        <a id="batalkan-btn" class="waves-effect waves-light btn btn-flat modal-close">Batalkan</a>
+        <a id="delete-confirmation" class="waves-effect waves-light btn red-btn">Ya, Saya Yakin</a>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+  let data
+
+  $(".delete_data_trigger").on('click', function(e) {
+    $(this).parent().closest('tr').each(function(index, tr){
+      data = $('td', tr).map(function(index, td) {
+        return $(td).text();
+      });
+    })
+  });
+
+  $("#delete-confirmation").on('click', function(e){
+    const url = '/delete_data/{{collection}}'
+
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: {
+        id: data[0]
+      }, // serializes the form's elements.
+      statusCode: {
+        400: function(data) {
+          alert(data.responseText)
+        },
+        200: function(data) {
+          $('#modal-delete').modal('close');
+          swal({
+            title: "",
+            text: "Data Barang Berhasil Dihapus!",
+            type: "success",
+            confirmButtonText: "Ok, Terimakasih"
+          }, () => {
+            setTimeout(() => {
+              location.reload()
+            }, 300)
+          });
+        }
+      }
+    });
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+  })
+</script>

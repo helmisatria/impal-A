@@ -10,7 +10,7 @@ $(document).ready(function(){
 // this is the id of the form
 $("#formlogin").submit(function(e) {
   var url = "/login"; // the script where you handle the form input.
-
+  console.log('$("#formlogin").serialize()', $("#formlogin").serialize());
   $.ajax({
     type: "POST",
     url: url,
@@ -21,7 +21,7 @@ $("#formlogin").submit(function(e) {
       },
       200: function(data) {
         alert(`Welcome, ${data.username}!`)
-        window.location.replace('/');
+        window.location.replace('/data');
       }
     }
   });

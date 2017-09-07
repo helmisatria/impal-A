@@ -5,9 +5,8 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-  <link rel="stylesheet" href="css/dashboard.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+  <link rel="stylesheet" href="css/data.css">
+  <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
@@ -25,7 +24,7 @@
     </div>
     <div class="col s6">
       <div id="logout-text" class="valign-wrapper right">
-        <a href="/logout">Logout</a>
+        <a href="/logout" style="color: inherit">Logout</a>
       </div>
     </div>
   </div>
@@ -43,49 +42,55 @@
       </ul>
     </div>
     <div id="kanan" class="col s9">
-      <div class="row" id="dashboard-cards">
-        {{#each dashboardContent}}
-          <div class="col s4">
-            <div class="card grey lighten-5">
-              <div class="card-content">
-                <p class="number-dashboard-card" id="{{id}}">---<p></span>{{text}}</span>
-              </div>
-              <div class="card-action">
-                <div class="row" style="margin-bottom: 5px">
-                  <a class="waves-effect waves-light btn-large col s12 btn-capitalize-text btn-round btn-dashboard" href="{{href}}">{{text_btn}}</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        {{/each}}
+      <div id="header_right" class="valign-wrapper">
+        <div class="col s4" id="sub-judul">
+          <p>{{dataContent.title}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <table class="bordered striped centered responsive-table" id="table_data">
+          <thead>
+            <tr>
+              {{#each dataTR}}
+                <th>{{tr}}</th>
+              {{/each}}
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each data}}
+            <tr>
+                <td class="data_td">{{_id}}</td>
+                <td class="data_td">{{username}}</td>
+                <td class="data_td">{{nama_user}}</td>
+                <td>
+                    <select>
+                      <option value="{{role}}" disabled selected>{{role}}</option>
+                      <option value="1">Staf Gudang</option>
+                      <option value="2">Bendahara</option>
+                      <option value="3">Member</option>
+                    </select>
+                  <!-- </div> -->
+                </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
-  <!-- JAVASCRIPT -->
+  <!-- declare let data at delete notification partials -->
+  {{> modal_delete_notification this}}
+  {{> modal_lihat_data this}}
+  {{> modal_create_data this}}
+  {{> modal_edit_data this}}
+
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="js/sweetalert.min.js"></script>
   <script type="text/javascript" src="js/dashboard/dashboard.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function(){
-      let url
-      {{#each dashboardContent}}
-        url = `/get_count_dashboard/{{urlParameter}}`
-
-        $.ajax({
-          type: "POST",
-          url: url,
-          statusCode: {
-            400: function(data) {
-              alert(data.responseText)
-            },
-            200: function(result) {
-              $('#{{id}}').text(result.data[{{@index}}])
-            }
-          }
-        })
-      {{/each}}
-      });
-  </script>
+  <script type="text/javascript" src="js/table_to_excel.js"></script>
+  <script type="text/javascript" src="js/kelola_role.js"></script>
 </body>
 </html>

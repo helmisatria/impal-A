@@ -1,0 +1,146 @@
+.idBarang{
+
+}
+.namaBarang{
+
+}
+.Kategori{
+
+}
+#harga{
+  font-size: 1.8em;
+}
+
+#header {
+  padding-bottom: 15px;
+  margin-bottom: 0;
+  padding-top: 10px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 2px #888;
+}
+
+.bulet {
+  display: inline-block;
+  border-radius: 60px;
+  box-shadow: 0px 0px 2px #888;
+  padding: 9px;
+  margin-right: 20px;
+  background-color: white;
+}
+
+#pic_pojok {
+  padding-top: 10px;
+  padding-left: 30px
+}
+
+#img-orang {
+  margin: 0;
+  background-color: #D95065;
+  color: white;
+}
+
+#welcome-text {
+  padding-left: 15px;
+  color: #878787;
+}
+
+#welcome {
+  padding-left: 40px;
+  padding-top: 5px;
+}
+#logout-text {
+  padding-top: 15px;
+  padding-right: 10%;
+}
+#kiritabel{
+  padding :35px;
+  margin-top: : 15px;
+  height: 200%;
+  border-left: 1px solid #E9E9E9;
+}
+
+.breadcrumb:before {
+  color: black
+}
+
+#dashboardkasir{
+  padding-left: 44px;
+  background-color: #ffffff;
+}
+
+#textdashboard{
+  color : black;
+}
+
+#bordertop{
+  border-top: 1px solid #E9E9E9;
+}
+#textbawah{
+  padding: 5px;
+  margin: 26px;
+}
+#kananline{
+  padding: 10px;
+  margin: 0px;
+}
+#batalkan-btn:hover{
+  background-color: #2196f3;
+  color: white;
+}
+#saya-yakin-btn:hover{
+  background-color: #fc004b;
+}
+#button-modal-header {
+  margin-left: 40px;
+
+}
+#button-modal-title {
+  background-color: #878787;
+  font-weight: 400;
+  text-transform: capitalize;
+  border-radius: 4px;
+}
+
+#modal-delete {
+  width: 30%;
+  transform: translateY(30%) !important;
+  text-align: center;
+}
+
+#modal-close-icon {
+  color: #EC0049;
+  box-shadow: 0px 0px 1px #EC0049 !important;
+  font-size: 2.5rem;
+  font-weight: 500;
+  border: 3px solid #EC0049;
+  margin-right: 0;
+}
+
+#modal-delete-text {
+  font-size: 1.2em;
+}
+
+#modal-delete-close-icon {
+  padding: 14px;
+}
+
+.modal-close-icon {
+  margin: 0 auto;
+  margin-bottom: 17px;
+  text-align: center;
+}
+
+.red-btn {
+  background-color: #EC0049;
+  padding: 0 17px;
+  text-transform: capitalize;
+}
+.aksi-icon {
+  margin-left: 8px;
+  color: #B9B9B9;
+  cursor: pointer;
+}
+
+.aksi-icon:hover {
+  color: black;
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "text": "Data User",
+    "text_btn": "Lihat Data User",
+    "href": "/data",
+    "id": "dashboard_data_user",
+    "urlParameter": "user"
+  }
+]

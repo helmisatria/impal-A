@@ -27,13 +27,22 @@ app.use(session({
   secret: 'bismillahsemogaimpaldapetA',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 15000 },
+  cookie: { maxAge: 600000 },
 }))
 
 // middleware function to check for logged-in users
 const auth = (req, res, next) => {
   if (req.cookies.xsecret && req.session.user) return next()
   return res.status(403).redirect('login')
+}
+
+const isAdmin = (req, res, next) => {
+  if (req.cookies.xsecret && req.session.user) {
+    if (req.session.user.role === 'Admin') {
+      return next()
+    }
+  }
+  return res.status(403).redirect('/dashboard')
 }
 
 let db
@@ -47,23 +56,41 @@ MongoClient.connect(url)
     console.log('Gagal connect ke database!');
   })
 
+// NAVIGASI
+const navigasiStafGudang = require('./navigasi/staf_gudang')
+const navigasiAdmin = require('./navigasi/admin');
+const navigasiAdminKelolaBarang = require('./navigasi/admin_kelola_barang');
+
+// TABLE ROW
+const tableRowAdmin = require('./dashboard/tablerow/admin');
+const tableRowStafGudang = require('./dashboard/tablerow/staf_gudang');
+const tableRowAdminKelolaRole = require('./dashboard/tablerow/adminKelolaRole');
+
+// DASHBOARD
+const dashboardAdmin = require('./dashboard/admin');
+const dashboardStafGudang = require('./dashboard/staf_gudang');
+
+// DATA HEADER CONTENT
+const dataContentAdmin = require('./dataContent/admin');
+const dataContentAdminKelolaRole = require('./dataContent/adminKelolaRole');
+const dataContentStafGudang = require('./dataContent/staf_gudang');
+
 app.get('/', (req, res) => {
-  console.log(req.session);
   if (req.session.user) {
     return res.send({ message: 'hello, You are connected!', user: req.session.user })
   }
-  res.send({ message: 'hello, You are connected!' })
+  res.redirect('/login')
 })
 
 app.get('/login', (req, res) => {
   if (req.session.user) {
-    return res.redirect('/')
+    return res.redirect('/dashboard')
   }
   res.render('login')
 })
 
 app.post('/login', (req, res) => {
-  if (req.session.user) res.redirect('/')
+  if (req.session.user) res.redirect('/data')
   const { username, password } = req.body
   db.collection('user').findOne({ username, password })
   .then((result) => {
@@ -99,84 +126,174 @@ app.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-app.get('/dashboard', (req, res) => {
-  const navigasi =
-    [{
-      nama: 'Dashboard',
-      icon: 'home',
-      href: '#',
-      class: 'active-collection'
-    }, {
-      nama: 'Data Barang',
-      icon: 'extension',
-      href: '/data'
-    }, {
-      nama: 'Data Pengadaan Barang',
-      icon: 'add_shopping_cart',
-      href: '#'
-    }, {
-      nama: 'Data Pembayaran Barang',
-      icon: 'account_balance_wallet',
-      href: '#'
-    }
-  ]
+app.get('/dashboard', auth, (req, res) => {
+  const { user } = req.session
+
+  let navigasi
+  let dashboardContent
+
+  if (user.role === 'Staf Gudang') {
+    navigasi = navigasiStafGudang
+    dashboardContent = dashboardStafGudang
+  } else if (user.role === 'Admin') {
+    navigasi = navigasiAdmin
+    dashboardContent = dashboardAdmin
+  }
+  navigasi[0].class = 'active-collection'
+  navigasi[1].class = ''
+  navigasi[1].href = '/data'
+  navigasi[2].href = '/kelola_role'
+
   res.render('dashboard', {
     navigasi,
-    user: {
-      role: 'Staf Gudang'
-    }
+    user: req.session.user,
+    dashboardContent
   })
 })
 
-app.get('/data', (req, res) => {
-  const navigasi =
-    [{
-      nama: 'Dashboard',
-      icon: 'home',
-      href: '/dashboard'
-    }, {
-      nama: 'Data Barang',
-      icon: 'extension',
-      href: '#',
-      class: 'active-collection'
-    }, {
-      nama: 'Data Pengadaan Barang',
-      icon: 'add_shopping_cart',
-      href: '#'
-    }, {
-      nama: 'Data Pembayaran Barang',
-      icon: 'account_balance_wallet',
-      href: '#'
-    }
-  ]
+app.get('/data', auth, (req, res) => {
+  const { user } = req.session
+  let navigasi
+  let dataTR
+  let collection
+  let dataContent
 
-  res.render('data', { navigasi,
-    user: {
-      role: 'Staf Gudang'
-    }
-  })
+  if (user.role === 'Staf Gudang') {
+    navigasi = navigasiStafGudang
+    dataTR = tableRowStafGudang
+    dataContent = dataContentStafGudang
+    collection = 'barang'
+  } else if (user.role === 'Admin') {
+    navigasi = navigasiAdmin
+    dataTR = tableRowAdmin
+    dataContent = dataContentAdmin
+    collection = 'user'
+  }
+  navigasi[0].href = '/dashboard'
+  navigasi[0].class = ''
+  navigasi[1].class = 'active-collection'
+  navigasi[2].href = '/kelola_role'
+
+  db.collection(collection).find({}).sort({ _id: -1 }).toArray()
+    .then((data) => {
+      res.render('data',
+      {
+        navigasi,
+        user: req.session.user,
+        data,
+        dataTR,
+        dataContent,
+        collection
+      })
+    })
 })
 
-app.get('/delete/:iduser', (req, res) => {
-  const id = ObjectId(req.params.iduser)
-  // const id = req.params.iduser
-  db.collection('user').deleteOne({ _id: id })
+app.post('/edit_data/:collection/:fieldCount', (req, res) => {
+  const { body } = req
+  const { collection, fieldCount } = req.params
+  console.log({ body });
+  for (let i = 0; i < fieldCount; i++) {
+    db.collection(collection).findOneAndUpdate({ _id: ObjectId(body.id) }, {
+      $set: {
+        [body[`data[${i}][name]`]]: body[`data[${i}][value]`]
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+  }
+  return res.status(200).send()
+})
+
+app.post('/delete_data/:collection', (req, res) => {
+  const { body } = req
+  const { collection } = req.params
+
+  db.collection(collection).findOneAndDelete({ _id: ObjectId(body.id) })
     .then((result) => {
-      // console.log(result);
-      res.send(result)
+      if (result) return res.status(200).send(result)
+      res.status(400).send('Barang Tidak Ditemukan')
     })
-    .catch((err) => {
-      res.send(err)
+    .catch((e) => {
+      res.status(400).send(e)
     })
-})
-app.get('/data_pembelian', (req, res) => {
-  res.render('data_pembelian')
 })
 
-app.get('/all_user', auth, (req, res) => {
-  db.collection('user').find().toArray((err, results) => {
-    if (err) console.log('Gagal mencari');
-    res.send(results)
+app.post('/get_data/:collection', (req, res) => {
+  const { body } = req
+  const { collection } = req.params
+  db.collection(`${collection}`).findOne({ _id: ObjectId(body.id) })
+    .then((result) => {
+      console.log(result);
+      if (result) return res.status(200).send(result)
+      return res.status(400).send('Tidak Ditemukan')
+    })
+    .catch((e) => {
+      res.status(400).send({ responseText: e })
+    })
+})
+
+app.post('/get_count_dashboard/:parameter', (req, res) => {
+  const data = []
+
+  db.collection(`${req.params.parameter}`).find({}).count()
+    .then((result) => {
+      data.push(result)
+      res.status(200).send({ data })
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+})
+
+app.post('/create_data/:collection', (req, res) => {
+  const { body } = req
+  const { collection } = req.params
+  if (collection === 'user') {
+    return db.collection(collection).findOne({ username: body.username }, (err, result) => {
+      if (result) return res.status(400).send({ responseText: 'Username Tidak Tersedia' })
+      db.collection(collection).insertOne(body)
+      .then((insertResult) => {
+        if (insertResult) res.status(200).send({ responseText: 'Tambah User Baru Berhasil' })
+      })
+    })
+  }
+  db.collection(collection).insertOne(body)
+  .then((result) => {
+    if (result) return res.status(200).send({ responseText: 'Tambah Barang Baru Berhasil' })
+    res.status(400).send()
+  })
+  .catch((e) => {
+    res.status(400).send(e)
+  })
+})
+
+app.get('/kelola_role', isAdmin, (req, res) => {
+  const navigasi = navigasiAdminKelolaBarang
+  const dataTR = tableRowAdminKelolaRole
+  const dataContent = dataContentAdminKelolaRole
+
+  navigasi[0].href = '/dashboard'
+  navigasi[1].href = '/data'
+  navigasi[2].href = '#'
+  navigasi[2].class = 'active-collection'
+
+  db.collection('user').find({}).sort({ _id: -1 }).toArray()
+    .then((data) => {
+      res.render('kelola_role', {
+        navigasi,
+        dataTR,
+        dataContent,
+        data
+      })
+    })
+})
+
+app.get('/keuangan', (req, res) => {
+  const navigasi = navigasiAdminKelolaBarang
+
+  res.render('keuangan', {
+    navigasi
   })
 })
 

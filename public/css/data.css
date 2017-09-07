@@ -142,7 +142,7 @@ td {
   text-transform: capitalize;
 }
 
-#left-btn {
+#cetak_data_barang_btn {
   background-color: transparent !important;
   color: #7c7c7c;
 }
@@ -156,12 +156,13 @@ td {
   /*padding:  !important;*/
 }
 
-#cetak-data-barang {
-  width: 40% !important
+#modal-lihat-data {
+  width: 40% !important;
+  transform: translateY(20%) !important;
 }
 
-#modal-new-barang {
-  /*width: 40% !important*/
+#modal-create-data {
+  
 }
 
 .modal-title {
@@ -169,7 +170,7 @@ td {
   margin: 0
 }
 
-#content-cetak-data-barang {
+#content-modal-lihat-data {
   padding: 17px 10px 0 30px !important
 }
 

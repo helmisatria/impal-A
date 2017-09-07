@@ -1,7 +1,7 @@
 $(document).ready(function(){
     // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
-  });
+  $('.modal').modal();
+});
 
 function clearInput() {
   let input = document.getElementById("search").value = ''
@@ -12,7 +12,7 @@ function searchTable() {
   var input, filter, table, tr, td, i;
   input = document.getElementById("search");
   filter = input.value.toUpperCase();
-  table = document.getElementById("table");
+  table = document.getElementById("table_data");
   tr = table.getElementsByTagName("tr");
 
   // Loop through all table rows, and hide those who don't match the search query

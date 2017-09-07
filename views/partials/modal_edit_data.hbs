@@ -1,0 +1,106 @@
+<!-- Modal Edit Data -->
+<div id="modal-edit-data" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <form id="edit_data" onsubmit="edit_data({{{user.role}}})">
+      <div class="row modal-header valign-wrapper">
+        <div class="col s12" style="margin-left: 0">
+          <p class="modal-title">Edit Data Barang</p>
+        </div>
+        <div class="col s2">
+          <i id="close-icon" class="material-icons right modal-action modal-close" style="color: #BFBFBF">close</i>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="row" style="margin-bottom: 0">
+        <div class="input-field col s6">
+          <input id="{{dataContent.modals.unique.0.field}}_edit" type="text" class="validate">
+          <label class="no-margin-left active" for="{{dataContent.modals.unique.0.field}}_edit">{{dataContent.modals.unique.0.text}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="{{dataContent.modals.unique.1.field}}_edit" type="text" name="{{dataContent.modals.unique.1.field}}" class="validate" >
+          <label class="no-margin-left active" for="{{dataContent.modals.unique.1.field}}_edit">{{dataContent.modals.unique.1.text}}</label>
+        </div>
+      </div>
+        <div class="row">
+          {{#each dataContent.modals.edit}}
+            <div class="input-field col s6">
+              <input id="{{field}}_edit" type="text" name="{{field}}" value="20" class="validate" required>
+              <label class="no-margin-left active" for="{{field}}_edit">{{text}}</label>
+            </div>
+          {{/each}}
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="waves-effect waves-light btn left" id="btn-modal-edit-submit" type="submit" style="margin: 5px 0 0 30px">simpan</button>
+    </div>
+  </form>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+  $("#edit_data").submit(function(e){
+    const array_length = $("#edit_data").serializeArray().length
+    const url = `/edit_data/{{collection}}/${array_length}`
+
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: {
+        id: data[0],
+        data: $("#edit_data").serializeArray()
+      },
+      statusCode: {
+        400: function(data) {
+          alert(data.responseText)
+        },
+        200: function(data) {
+          $('#modal-edit-data').modal('close')
+          swal({
+            title: "",
+            text: "Data Barang Berhasil Disimpan!",
+            type: "success",
+            confirmButtonText: "Ok, Terimakasih"
+          }, () => {
+            setTimeout(() => {
+              location.reload()
+            }, 300)
+          });
+        }
+      }
+    });
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+
+  })
+
+  $(".edit_data_trigger").on('click', function(e) {
+    $(this).parent().closest('tr').each(function(index, tr){
+      data = $('td', tr).map(function(index, td) {
+        return $(td).text();
+      });
+    })
+
+    const url = '/get_data/{{collection}}'
+
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: {id: data[0]}, // serializes the form's elements.
+      statusCode: {
+        400: function(data) {
+          alert(data.responseText)
+        },
+        200: function(data) {
+          $('#{{dataContent.modals.unique.0.field}}_edit').val(data._id);
+          $('#{{dataContent.modals.unique.1.field}}_edit').val(data.{{dataContent.modals.unique.1.field}});
+          {{#each dataContent.modals.edit}}
+            $('#{{field}}_edit').val(data.{{field}});
+          {{/each}}
+          Materialize.updateTextFields();
+        }
+      }
+    });
+  });
+
+</script>
