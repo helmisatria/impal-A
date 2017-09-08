@@ -11,6 +11,10 @@
   "icon": "settings",
   "href": "#"
 }, {
+  "nama": "Reset Password",
+  "icon": "vpn_key",
+  "href": "#"
+}, {
   "nama": "Backup Database",
   "icon": "disc_full",
   "href": "#"

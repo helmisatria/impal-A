@@ -1,0 +1,17 @@
+[{
+  "nama": "Dashboard",
+  "icon": "home",
+  "href": "#"
+}, {
+  "nama": "Laporan Hutang Piutang",
+  "icon": "account_balance_wallet",
+  "href": "#"
+}, {
+  "nama": "Laporan Laba Rugi",
+  "icon": "whatshot",
+  "href": "#"
+}, {
+  "nama": "Jual Beli Barang",
+  "icon": "arrow_downward",
+  "href": "#"
+}]

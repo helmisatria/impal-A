@@ -1,0 +1,16 @@
+[
+  {
+    "text": "Laporan yang perlu dikonfirmasi",
+    "text_btn": "Lihat Data Laporan",
+    "href": "/data",
+    "id": "dashboard_lihat_data_laporan",
+    "urlParameter": "laporan"
+  },
+  {
+    "text": "Jurnal Keuangan",
+    "text_btn": "Lihat Jurnal Keuangan",
+    "id": "dashboard_lihat_jurnal_keuangan",
+    "href": "#",
+    "urlParameter": "keuangan"
+  }
+]

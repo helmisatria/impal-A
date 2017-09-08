@@ -64,22 +64,25 @@ MongoClient.connect(url)
 
 // NAVIGASI
 const navigasiStafGudang = require('./navigasi/staf_gudang')
-const navigasiAdmin = require('./navigasi/admin');
-const navigasiAdminKelolaBarang = require('./navigasi/admin_kelola_barang');
+const navigasiAdmin = require('./navigasi/admin')
+const navigasiManajer = require('./navigasi/manajer')
 
 // TABLE ROW
 const tableRowAdmin = require('./dashboard/tablerow/admin');
 const tableRowStafGudang = require('./dashboard/tablerow/staf_gudang');
 const tableRowAdminKelolaRole = require('./dashboard/tablerow/adminKelolaRole');
+const tableRowManajer = require('./dashboard/tablerow/manajer')
 
 // DASHBOARD
 const dashboardAdmin = require('./dashboard/admin');
 const dashboardStafGudang = require('./dashboard/staf_gudang');
+const dashboardManajer = require('./dashboard/manajer')
 
-// DATA HEADER CONTENT
+// DATA CONTENT
 const dataContentAdmin = require('./dataContent/admin');
 const dataContentAdminKelolaRole = require('./dataContent/adminKelolaRole');
 const dataContentStafGudang = require('./dataContent/staf_gudang');
+const dataContentManajer = require('./dataContent/manajer')
 
 app.get('/', (req, res) => {
   if (req.session.user) {
@@ -144,11 +147,16 @@ app.get('/dashboard', auth, (req, res) => {
   } else if (user.role === 'Admin') {
     navigasi = navigasiAdmin
     dashboardContent = dashboardAdmin
+    navigasi[2].href = '/kelola_role'
+  } else if (user.role === 'Manajer') {
+    navigasi = navigasiManajer
+    dashboardContent = dashboardManajer
   }
+
   navigasi[0].class = 'active-collection'
   navigasi[1].class = ''
   navigasi[1].href = '/data'
-  navigasi[2].href = '/kelola_role'
+  navigasi[2].class = ''
 
   res.render('dashboard', {
     navigasi,
@@ -174,11 +182,18 @@ app.get('/data', auth, (req, res) => {
     dataTR = tableRowAdmin
     dataContent = dataContentAdmin
     collection = 'user'
+    navigasi[2].href = '/kelola_role'
+  } else if (user.role === 'Manajer') {
+    navigasi = navigasiManajer
+    dataTR = tableRowManajer
+    dataContent = dataContentManajer
+    collection = 'barang'
   }
   navigasi[0].href = '/dashboard'
+  navigasi[1].href = '#'
   navigasi[0].class = ''
   navigasi[1].class = 'active-collection'
-  navigasi[2].href = '/kelola_role'
+  navigasi[2].class = ''
 
   db.collection(collection).find({}).sort({ _id: -1 }).toArray()
     .then((data) => {
@@ -276,13 +291,15 @@ app.post('/create_data/:collection', (req, res) => {
 
 app.get('/kelola_role', isAdmin, (req, res) => {
   const { user } = req.session
-  const navigasi = navigasiAdminKelolaBarang
+  const navigasi = navigasiAdmin
   const dataTR = tableRowAdminKelolaRole
   const dataContent = dataContentAdminKelolaRole
 
   navigasi[0].href = '/dashboard'
   navigasi[1].href = '/data'
   navigasi[2].href = '#'
+  navigasi[0].class = ''
+  navigasi[1].class = ''
   navigasi[2].class = 'active-collection'
 
   db.collection('user').find({}).sort({ _id: -1 }).toArray()

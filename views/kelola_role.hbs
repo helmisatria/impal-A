@@ -75,8 +75,9 @@
                 <td class="data_td">{{nama_user}}</td>
                 <td class="role_dropdown">
                   <select id="{{_id}}" style="margin-bottom: 0" onchange="updateRole(this, '{{_id}}')">
-                    <option value="Staf Gudang" {{#ifCond role "Staf Gudang"}} disabled selected {{/ifCond}}>Staf Gudang</option>
                     <option value="Admin" {{#ifCond role "Admin"}} disabled selected {{/ifCond}}>Admin</option>
+                    <option value="Manajer" {{#ifCond role "Manajer"}} disabled selected {{/ifCond}}>Manajer</option>
+                    <option value="Staf Gudang" {{#ifCond role "Staf Gudang"}} disabled selected {{/ifCond}}>Staf Gudang</option>
                     <option value="Bendahara" {{#ifCond role "Bendahara"}} disabled selected {{/ifCond}}>Bendahara</option>
                     <option value="Member" {{#ifCond role "Member"}} disabled selected {{/ifCond}}>Member</option>
                   </select>
