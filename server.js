@@ -66,6 +66,7 @@ MongoClient.connect(url)
 const navigasiStafGudang = require('./navigasi/staf_gudang')
 const navigasiAdmin = require('./navigasi/admin')
 const navigasiManajer = require('./navigasi/manajer')
+const navigasiBendahara = require('./navigasi/bendahara')
 
 // TABLE ROW
 const tableRowAdmin = require('./dashboard/tablerow/admin');
@@ -77,6 +78,7 @@ const tableRowManajer = require('./dashboard/tablerow/manajer')
 const dashboardAdmin = require('./dashboard/admin');
 const dashboardStafGudang = require('./dashboard/staf_gudang');
 const dashboardManajer = require('./dashboard/manajer')
+const dashboardBendahara = require('./dashboard/bendahara')
 
 // DATA CONTENT
 const dataContentAdmin = require('./dataContent/admin');
@@ -151,6 +153,9 @@ app.get('/dashboard', auth, (req, res) => {
   } else if (user.role === 'Manajer') {
     navigasi = navigasiManajer
     dashboardContent = dashboardManajer
+  } else if (user.role === 'Bendahara') {
+    navigasi = navigasiBendahara
+    dashboardContent = dashboardBendahara
   }
 
   navigasi[0].class = 'active-collection'
@@ -220,7 +225,7 @@ app.post('/edit_data/:collection/:fieldCount', (req, res) => {
       }
     })
     .catch((e) => {
-      console.log(e);
+      console.log(e)
     })
   }
   return res.status(200).send()

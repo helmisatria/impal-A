@@ -1,0 +1,21 @@
+[{
+  "nama": "Dashboard",
+  "icon": "home",
+  "href": "#"
+}, {
+  "nama": "Data Barang",
+  "icon": "extension",
+  "href": "#"
+}, {
+  "nama": "Data Penjualan",
+  "icon": "style",
+  "href": "#"
+}, {
+  "nama": "Data Pembelian Barang",
+  "icon": "extension",
+  "href": "#"
+}, {
+  "nama": "Data Member",
+  "icon": "people",
+  "href": "#"
+}]

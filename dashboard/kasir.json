@@ -1,0 +1,16 @@
+[
+  {
+    "text": "Data Barang",
+    "text_btn": "Lihat Data Barang",
+    "href": "#",
+    "id": "dashboard_lihat_data_barang",
+    "urlParameter": "barang"
+  },
+  {
+    "text": "Data Member",
+    "text_btn": "Lihat Data Member",
+    "href": "#",
+    "id": "dashboard_lihat_laporan_laba_rugi",
+    "urlParameter": "user"
+  }
+]

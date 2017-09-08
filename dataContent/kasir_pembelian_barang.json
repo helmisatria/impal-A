@@ -1,0 +1,31 @@
+{
+  "title": "Data Pembelian Barang",
+  "btn-left": "Cetak Data Pembelian",
+  "btn-right": "Pembelian Baru",
+  "kasir": true,
+  "modals" : {
+    "unique" : {
+      "0": {
+        "text": "ID Barang",
+        "field": "_id"
+      },
+      "1": {
+        "text": "Nama Barang",
+        "field": "nama_barang"
+      }
+    },
+    "edit": [{
+      "text": "Kategori",
+      "field": "kategori"
+    }, {
+      "text": "Kuantitas",
+      "field": "stok"
+    }, {
+      "text": "Harga Satuan",
+      "field": "harga_jual"
+    }, {
+      "text": "Total",
+      "field": "total_harga"
+    }]
+  }
+}
