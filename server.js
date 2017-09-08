@@ -7,6 +7,12 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const hbs = require('hbs');
 
+// REGISTER HELPER FOR HANDLEBARS
+hbs.registerHelper('ifCond', function (v1, v2, options) {
+  if (v1 === v2) return options.fn(this)
+  return options.inverse(this);
+});
+
 const url = 'mongodb://localhost:27017/dbimpal-A';
 
 const app = express()
@@ -269,6 +275,7 @@ app.post('/create_data/:collection', (req, res) => {
 })
 
 app.get('/kelola_role', isAdmin, (req, res) => {
+  const { user } = req.session
   const navigasi = navigasiAdminKelolaBarang
   const dataTR = tableRowAdminKelolaRole
   const dataContent = dataContentAdminKelolaRole
@@ -281,11 +288,32 @@ app.get('/kelola_role', isAdmin, (req, res) => {
   db.collection('user').find({}).sort({ _id: -1 }).toArray()
     .then((data) => {
       res.render('kelola_role', {
+        user,
         navigasi,
         dataTR,
         dataContent,
         data
       })
+    })
+})
+
+app.post('/kelola_role', (req, res) => {
+  const { body } = req
+  console.log(body);
+  db.collection('user').findOneAndUpdate({
+    _id: ObjectId(body.id)
+  }, {
+    $set: {
+      role: body.role
+    }
+  })
+    .then((result) => {
+      console.log(result);
+      if (result) return res.status(200).send()
+      res.status(400).send('Something wrong!')
+    })
+    .catch((e) => {
+      res.status(400).send(e)
     })
 })
 

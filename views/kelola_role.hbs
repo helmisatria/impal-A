@@ -9,6 +9,16 @@
   <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style media="screen">
+    .select-wrapper input.select-dropdown {
+      margin: 0 !important;
+      border: none;
+      text-align: center;
+    }
+    .role_dropdown{
+      padding-right: 50px;
+    }
+    </style>
 </head>
 
 <body>
@@ -60,17 +70,16 @@
           <tbody>
             {{#each data}}
             <tr>
-                <td class="data_td">{{_id}}</td>
+                <td class="{{_id}}">{{_id}}</td>
                 <td class="data_td">{{username}}</td>
                 <td class="data_td">{{nama_user}}</td>
-                <td>
-                    <select>
-                      <option value="{{role}}" disabled selected>{{role}}</option>
-                      <option value="1">Staf Gudang</option>
-                      <option value="2">Bendahara</option>
-                      <option value="3">Member</option>
-                    </select>
-                  <!-- </div> -->
+                <td class="role_dropdown">
+                  <select id="{{_id}}" style="margin-bottom: 0" onchange="updateRole(this, '{{_id}}')">
+                    <option value="Staf Gudang" {{#ifCond role "Staf Gudang"}} disabled selected {{/ifCond}}>Staf Gudang</option>
+                    <option value="Admin" {{#ifCond role "Admin"}} disabled selected {{/ifCond}}>Admin</option>
+                    <option value="Bendahara" {{#ifCond role "Bendahara"}} disabled selected {{/ifCond}}>Bendahara</option>
+                    <option value="Member" {{#ifCond role "Member"}} disabled selected {{/ifCond}}>Member</option>
+                  </select>
                 </td>
             </tr>
             {{/each}}
@@ -80,13 +89,43 @@
     </div>
   </div>
 
-  <!-- declare let data at delete notification partials -->
+  <!-- declared 'let data' at delete notification partials -->
   {{> modal_delete_notification this}}
   {{> modal_lihat_data this}}
   {{> modal_create_data this}}
   {{> modal_edit_data this}}
 
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript">
+    function updateRole(data, id) {
+      const selected = $(data).children('option:selected')[0].innerText
+      $.ajax({
+        type: "POST",
+        url: '/kelola_role',
+        data: {
+          id: id,
+          role: selected
+        },
+        statusCode: {
+          400: function(data) {
+            alert(data.responseText)
+          },
+          200: function(data) {
+            swal({
+              title: "",
+              text: "Data Barang Berhasil Disimpan!",
+              type: "success",
+              confirmButtonText: "Ok, Terimakasih"
+            }, () => {
+              setTimeout(() => {
+                location.reload()
+              }, 300)
+            });
+          }
+        }
+      })
+    }
+  </script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script type="text/javascript" src="js/sweetalert.min.js"></script>
   <script type="text/javascript" src="js/dashboard/dashboard.js"></script>
