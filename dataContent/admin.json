@@ -2,6 +2,8 @@
   "title": "Data User",
   "btn-left": "Cetak Data User",
   "btn-right": "Tambah Data User",
+  "modal-create-data-title": "Tambah Data User",
+  "search-placeholder": "Cari Data User",
   "admin": true,
   "modals" : {
     "unique" : {
