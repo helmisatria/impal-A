@@ -61,6 +61,7 @@
   margin-top: : 0px;
   height: 200%;
   border-left: 2px solid #E9E9E9;
+  margin-bottom: 40px;
 }
 #margin-text-total{
   margin-top: 0px;
@@ -85,8 +86,11 @@
 
 #footer {
    position:fixed;
+   background: white;
    border-top: 2px solid #E9E9E9;
    bottom: 0;
+   right: 0;
+   left: 0;
 }
 #textbawah{
   padding: 5px;
