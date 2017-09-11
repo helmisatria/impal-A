@@ -251,6 +251,7 @@ app.post('/delete_data/:collection', (req, res) => {
 
 app.post('/get_data/:collection', (req, res) => {
   const { body } = req
+  console.log(body);
   const { collection } = req.params
   db.collection(collection).findOne({ _id: ObjectId(body.id) })
     .then((result) => {
@@ -353,6 +354,17 @@ app.get('/keuangan', (req, res) => {
   res.render('keuangan', {
     navigasi
   })
+})
+
+app.get('/get_id_barang', (req, res) => {
+  db.collection('barang').find().toArray()
+    .then((result) => {
+      if (!result) return res.status(400).send()
+      return res.status(200).send(result)
+    })
+    .catch((e) => {
+      res.status(400).send(e)
+    })
 })
 
 app.listen(8000, (err) => {
