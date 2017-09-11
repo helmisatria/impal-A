@@ -26,7 +26,7 @@
       </div>
       <div class="col s6">
         <div id="logout-text" class="valign-wrapper right">
-          <a href="/logout">Logout</a>
+          <a id="logout-colortext" href="/logout">Logout</a>
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@
       <div class="col s6">
         <div class="row">
           <form class="col s12">
-            <div class="row">
+            <div id="marginrow"class="row">
               <div class="input-field col s3">
                 <input id="idBarang" type="text" name="" value="">
                 <label for="idBarang">ID Barang</label>
@@ -80,10 +80,10 @@
       </div>
 
       <div id="kiritabel" class="col s6">
-        <p>Total yang harus dibayarkan</p>
+        <p id="margin-text-total">Total yang harus dibayarkan</p>
         <p id="harga">Rp 0</p>
         <p>Barang Penjualan</p>
-        <table id="kananline"class="bordered striped">
+        <table id="table-pembelian"class="centered bordered striped">
          <thead>
            <tr>
                <th>ID</th>
@@ -163,13 +163,15 @@
         </div>
       </div>
     </div>
-    <div id="bordertop" class="row">
+    <div id="footer" class="row" style="margin-bottom: 0; padding-bottom: 20px">
       <div class="col s6">
-        <a class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Keranjang</a>
+        <div class="bottommarginbtn">
+          <a onclick="addItem()" class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Keranjang</a>
+        </div>
       </div>
       <div class="col s6">
-        <div class="valign-wrapper right">
-          <button id="textbawah" class="right" type="button" name="button">Lanjutkan ke Pembayaran</button>
+        <div class="valign-wrapper right bottommarginbtn">
+          <a onclick="addItem()" class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Pembayaran</a>
         </div>
       </div>
     </div>

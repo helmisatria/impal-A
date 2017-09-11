@@ -1,5 +1,5 @@
-.idBarang{
-
+#marginrow{
+  margin-top: 22px;
 }
 .namaBarang{
 
@@ -8,7 +8,8 @@
 
 }
 #harga{
-  font-size: 1.8em;
+  font-size: 2.4em;
+  margin-top:14px;
 }
 
 #header {
@@ -52,11 +53,18 @@
   padding-top: 15px;
   padding-right: 10%;
 }
+#logout-colortext{
+  color: black !important;
+}
 #kiritabel{
   padding :35px;
-  margin-top: : 15px;
+  margin-top: : 0px;
   height: 200%;
-  border-left: 1px solid #E9E9E9;
+  border-left: 2px solid #E9E9E9;
+  margin-bottom: 40px;
+}
+#margin-text-total{
+  margin-top: 0px;
 }
 
 .breadcrumb:before {
@@ -72,17 +80,28 @@
   color : black;
 }
 
-#bordertop{
-  border-top: 1px solid #E9E9E9;
+.bottommarginbtn{
+  padding-top: 17px;
+}
+
+#footer {
+   position:fixed;
+   background: white;
+   border-top: 2px solid #E9E9E9;
+   bottom: 0;
+   right: 0;
+   left: 0;
 }
 #textbawah{
   padding: 5px;
   margin: 26px;
 }
-#kananline{
+#table-pembelian{
   padding: 10px;
   margin: 0px;
+  text-align: center;
 }
+
 #batalkan-btn:hover{
   background-color: #2196f3;
   color: white;
