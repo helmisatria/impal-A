@@ -26,7 +26,7 @@
       </div>
       <div class="col s6">
         <div id="logout-text" class="valign-wrapper right">
-          <a href="/logout">Logout</a>
+          <a id="logout-colortext" href="/logout">Logout</a>
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@
         <p>Total yang harus dibayarkan</p>
         <p id="harga">Rp 0</p>
         <p>Barang Penjualan</p>
-        <table id="kananline"class="bordered striped">
+        <table id="table-pembelian"class="centered bordered striped">
          <thead>
            <tr>
                <th>ID</th>
@@ -165,12 +165,11 @@
     </div>
     <div id="bordertop" class="row">
       <div class="col s6">
-        <a class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Keranjang</a>
+        <a onclick="addItem()" class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Keranjang</a>
       </div>
       <div class="col s6">
         <div class="valign-wrapper right">
-          <button id="textbawah" class="right" type="button" name="button">Lanjutkan ke Pembayaran</button>
-        </div>
+          <a onclick="addItem()" class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Pembayaran</a></div>
       </div>
     </div>
     <!--Import jQuery before materialize.js-->

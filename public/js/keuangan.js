@@ -1,15 +1,15 @@
 function addItem(){
-    var ul = document.getElementById("dynamic-list");
-    var candidate = document.getElementById("candidate");
-    var li = document.createElement("li");
-    li.setAttribute('id',candidate.value);
-    li.appendChild(document.createTextNode(candidate.value));
-    ul.appendChild(li);
-}
-
-function removeItem(){
-    var ul = document.getElementById("dynamic-list");
-    var candidate = document.getElementById("candidate");
-    var item = document.getElementById(candidate.value);
-    ul.removeChild(item);
+  $('#table-pembelian tr:last').after(`
+    <tr>
+      <td>KD001</td>
+      <td>Betadine</td>
+      <td>12</td>
+      <td>200000</td>
+      <td class="aksi-icon-padding">
+        <a class="modal-trigger" href="#modal-lihat-data"><i class="material-icons aksi-icon">remove_red_eye</i></a>
+        <a class="modal-trigger" href="#modal-edit-data"><i class="material-icons aksi-icon">mode_edit</i></a>
+        <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
+      </td>
+    </tr>
+    `)
 }

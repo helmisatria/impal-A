@@ -1,5 +1,5 @@
-.idBarang{
-
+#idBarang{
+  margin-top: 22px !important;
 }
 .namaBarang{
 
@@ -52,6 +52,9 @@
   padding-top: 15px;
   padding-right: 10%;
 }
+#logout-colortext{
+  color: black !important;
+}
 #kiritabel{
   padding :35px;
   margin-top: : 15px;
@@ -79,10 +82,12 @@
   padding: 5px;
   margin: 26px;
 }
-#kananline{
+#table-pembelian{
   padding: 10px;
   margin: 0px;
+  text-align: center;
 }
+
 #batalkan-btn:hover{
   background-color: #2196f3;
   color: white;
