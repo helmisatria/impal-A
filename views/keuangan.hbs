@@ -43,7 +43,7 @@
       <div class="col s6">
         <div class="row">
           <form class="col s12">
-            <div class="row">
+            <div id="marginrow"class="row">
               <div class="input-field col s3">
                 <input id="idBarang" type="text" name="" value="">
                 <label for="idBarang">ID Barang</label>
@@ -80,7 +80,7 @@
       </div>
 
       <div id="kiritabel" class="col s6">
-        <p>Total yang harus dibayarkan</p>
+        <p id="margin-text-total">Total yang harus dibayarkan</p>
         <p id="harga">Rp 0</p>
         <p>Barang Penjualan</p>
         <table id="table-pembelian"class="centered bordered striped">
@@ -163,12 +163,14 @@
         </div>
       </div>
     </div>
-    <div id="bordertop" class="row">
+    <div id="footer" class="row">
       <div class="col s6">
-        <a onclick="addItem()" class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Keranjang</a>
+        <div class="bottommarginbtn">
+          <a onclick="addItem()" class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Keranjang</a>
+        </div>
       </div>
       <div class="col s6">
-        <div class="valign-wrapper right">
+        <div class="valign-wrapper right bottommarginbtn">
           <a onclick="addItem()" class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Pembayaran</a></div>
       </div>
     </div>
