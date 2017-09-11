@@ -1,0 +1,16 @@
+[
+  {
+    "text": "Laporan Hutang Piutang",
+    "text_btn": "Lihat Laporan Hutang Piutang",
+    "href": "#",
+    "id": "dashboard_lihat_data_hutang_piutang",
+    "urlParameter": "laporan_hutang_piutang"
+  },
+  {
+    "text": "Laporan Laba Rugi",
+    "text_btn": "Lihat Laporan Laba Rugi",
+    "id": "dashboard_lihat_laporan_laba_rugi",
+    "href": "#",
+    "urlParameter": "laporan_laba_rugi"
+  }
+]

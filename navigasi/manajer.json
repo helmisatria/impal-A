@@ -1,0 +1,25 @@
+[{
+  "nama": "Dashboard",
+  "icon": "home",
+  "href": "#"
+}, {
+  "nama": "Data Barang",
+  "icon": "extension",
+  "href": "#"
+}, {
+  "nama": "Jurnal Keuangan",
+  "icon": "account_balance_wallet",
+  "href": "#"
+}, {
+  "nama": "Data Hutang",
+  "icon": "account_balance_wallet",
+  "href": "#"
+}, {
+  "nama": "Laporan Laba Rugi",
+  "icon": "whatshot",
+  "href": "#"
+}, {
+  "nama": "Backup Database",
+  "icon": "disc_full",
+  "href": "#"
+}]

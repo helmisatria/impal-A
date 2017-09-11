@@ -10,8 +10,8 @@ const hbs = require('hbs');
 // REGISTER HELPER FOR HANDLEBARS
 hbs.registerHelper('ifCond', function (v1, v2, options) {
   if (v1 === v2) return options.fn(this)
-  return options.inverse(this);
-});
+  return options.inverse(this)
+})
 
 const url = 'mongodb://localhost:27017/dbimpal-A';
 
@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // initialize cookie-parser to allow us access the cookies stored in the browser.
-app.use(cookieParser());
+app.use(cookieParser())
 
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
@@ -64,26 +64,31 @@ MongoClient.connect(url)
 
 // NAVIGASI
 const navigasiStafGudang = require('./navigasi/staf_gudang')
-const navigasiAdmin = require('./navigasi/admin');
-const navigasiAdminKelolaBarang = require('./navigasi/admin_kelola_barang');
+const navigasiAdmin = require('./navigasi/admin')
+const navigasiManajer = require('./navigasi/manajer')
+const navigasiBendahara = require('./navigasi/bendahara')
 
 // TABLE ROW
-const tableRowAdmin = require('./dashboard/tablerow/admin');
-const tableRowStafGudang = require('./dashboard/tablerow/staf_gudang');
-const tableRowAdminKelolaRole = require('./dashboard/tablerow/adminKelolaRole');
+const tableRowAdmin = require('./dashboard/tablerow/admin')
+const tableRowStafGudang = require('./dashboard/tablerow/staf_gudang')
+const tableRowAdminKelolaRole = require('./dashboard/tablerow/adminKelolaRole')
+const tableRowManajer = require('./dashboard/tablerow/manajer')
 
 // DASHBOARD
-const dashboardAdmin = require('./dashboard/admin');
-const dashboardStafGudang = require('./dashboard/staf_gudang');
+const dashboardAdmin = require('./dashboard/admin')
+const dashboardStafGudang = require('./dashboard/staf_gudang')
+const dashboardManajer = require('./dashboard/manajer')
+const dashboardBendahara = require('./dashboard/bendahara')
 
-// DATA HEADER CONTENT
-const dataContentAdmin = require('./dataContent/admin');
-const dataContentAdminKelolaRole = require('./dataContent/adminKelolaRole');
-const dataContentStafGudang = require('./dataContent/staf_gudang');
+// DATA CONTENT
+const dataContentAdmin = require('./dataContent/admin')
+const dataContentAdminKelolaRole = require('./dataContent/adminKelolaRole')
+const dataContentStafGudang = require('./dataContent/staf_gudang')
+const dataContentManajer = require('./dataContent/manajer')
 
 app.get('/', (req, res) => {
   if (req.session.user) {
-    return res.send({ message: 'hello, You are connected!', user: req.session.user })
+    return res.redirect('/dashboard')
   }
   res.redirect('/login')
 })
@@ -144,11 +149,19 @@ app.get('/dashboard', auth, (req, res) => {
   } else if (user.role === 'Admin') {
     navigasi = navigasiAdmin
     dashboardContent = dashboardAdmin
+    navigasi[2].href = '/kelola_role'
+  } else if (user.role === 'Manajer') {
+    navigasi = navigasiManajer
+    dashboardContent = dashboardManajer
+  } else if (user.role === 'Bendahara') {
+    navigasi = navigasiBendahara
+    dashboardContent = dashboardBendahara
   }
+
   navigasi[0].class = 'active-collection'
   navigasi[1].class = ''
   navigasi[1].href = '/data'
-  navigasi[2].href = '/kelola_role'
+  navigasi[2].class = ''
 
   res.render('dashboard', {
     navigasi,
@@ -174,13 +187,24 @@ app.get('/data', auth, (req, res) => {
     dataTR = tableRowAdmin
     dataContent = dataContentAdmin
     collection = 'user'
+    navigasi[2].href = '/kelola_role'
+  } else if (user.role === 'Manajer') {
+    navigasi = navigasiManajer
+    dataTR = tableRowManajer
+    dataContent = dataContentManajer
+    collection = 'barang'
   }
   navigasi[0].href = '/dashboard'
+  navigasi[1].href = '#'
   navigasi[0].class = ''
   navigasi[1].class = 'active-collection'
-  navigasi[2].href = '/kelola_role'
+  navigasi[2].class = ''
 
-  db.collection(collection).find({}).sort({ _id: -1 }).toArray()
+  db.collection(collection).find({
+    username: {
+      $ne: 'admin'
+    }
+  }).sort({ _id: -1 }).toArray()
     .then((data) => {
       res.render('data',
       {
@@ -205,7 +229,7 @@ app.post('/edit_data/:collection/:fieldCount', (req, res) => {
       }
     })
     .catch((e) => {
-      console.log(e);
+      console.log(e)
     })
   }
   return res.status(200).send()
@@ -228,7 +252,7 @@ app.post('/delete_data/:collection', (req, res) => {
 app.post('/get_data/:collection', (req, res) => {
   const { body } = req
   const { collection } = req.params
-  db.collection(`${collection}`).findOne({ _id: ObjectId(body.id) })
+  db.collection(collection).findOne({ _id: ObjectId(body.id) })
     .then((result) => {
       console.log(result);
       if (result) return res.status(200).send(result)
@@ -248,7 +272,7 @@ app.post('/get_count_dashboard/:parameter', (req, res) => {
       res.status(200).send({ data })
     })
     .catch((e) => {
-      console.log(e);
+      console.log(e)
     })
 })
 
@@ -276,16 +300,22 @@ app.post('/create_data/:collection', (req, res) => {
 
 app.get('/kelola_role', isAdmin, (req, res) => {
   const { user } = req.session
-  const navigasi = navigasiAdminKelolaBarang
+  const navigasi = navigasiAdmin
   const dataTR = tableRowAdminKelolaRole
   const dataContent = dataContentAdminKelolaRole
 
   navigasi[0].href = '/dashboard'
   navigasi[1].href = '/data'
   navigasi[2].href = '#'
+  navigasi[0].class = ''
+  navigasi[1].class = ''
   navigasi[2].class = 'active-collection'
 
-  db.collection('user').find({}).sort({ _id: -1 }).toArray()
+  db.collection('user').find({
+    username: {
+      $ne: 'admin'
+    }
+  }).sort({ _id: -1 }).toArray()
     .then((data) => {
       res.render('kelola_role', {
         user,
@@ -318,7 +348,7 @@ app.post('/kelola_role', (req, res) => {
 })
 
 app.get('/keuangan', (req, res) => {
-  const navigasi = navigasiAdminKelolaBarang
+  const navigasi = navigasiAdmin
 
   res.render('keuangan', {
     navigasi

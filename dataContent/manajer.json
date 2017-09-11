@@ -1,0 +1,37 @@
+{
+  "title": "Data Barang",
+  "btn-left": null,
+  "btn-right": null,
+  "manajer": true,
+  "modals" : {
+    "unique" : {
+      "0": {
+        "text": "ID Barang",
+        "field": "_id"
+      },
+      "1": {
+        "text": "Nama Barang",
+        "field": "nama_barang"
+      }
+    },
+    "edit": [{
+      "text": "Stok",
+      "field": "stok"
+    }, {
+      "text": "Stok Opname",
+      "field": "stok_opname"
+    }, {
+      "text": "Kategori",
+      "field": "kategori"
+    }, {
+      "text": "Merk",
+      "field": "id_merk"
+    }, {
+      "text": "Harga Beli",
+      "field": "harga_beli"
+    }, {
+      "text": "Harga Jual",
+      "field": "harga_jual"
+    }]
+  }
+}
