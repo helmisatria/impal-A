@@ -84,6 +84,12 @@
   padding-top: 17px;
 }
 
+#btn-footer-right{
+  background: white !important;
+  color: black;
+  border: black;
+}
+
 #footer {
    position:fixed;
    background: white;
@@ -91,6 +97,8 @@
    bottom: 0;
    right: 0;
    left: 0;
+   padding-left: 58px;
+   padding-right: 58px;
 }
 #textbawah{
   padding: 5px;
