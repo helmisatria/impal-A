@@ -67,24 +67,28 @@ const navigasiStafGudang = require('./navigasi/staf_gudang')
 const navigasiAdmin = require('./navigasi/admin')
 const navigasiManajer = require('./navigasi/manajer')
 const navigasiBendahara = require('./navigasi/bendahara')
+const navigasiKasir = require('./navigasi/kasir')
 
 // TABLE ROW
 const tableRowAdmin = require('./dashboard/tablerow/admin')
 const tableRowStafGudang = require('./dashboard/tablerow/staf_gudang')
 const tableRowAdminKelolaRole = require('./dashboard/tablerow/adminKelolaRole')
 const tableRowManajer = require('./dashboard/tablerow/manajer')
+const tableRowKasir = require('./dashboard/tablerow/kasir_pembelian_barang')
 
 // DASHBOARD
 const dashboardAdmin = require('./dashboard/admin')
 const dashboardStafGudang = require('./dashboard/staf_gudang')
 const dashboardManajer = require('./dashboard/manajer')
 const dashboardBendahara = require('./dashboard/bendahara')
+const dashboardKasir = require('./dashboard/kasir')
 
 // DATA CONTENT
 const dataContentAdmin = require('./dataContent/admin')
 const dataContentAdminKelolaRole = require('./dataContent/adminKelolaRole')
 const dataContentStafGudang = require('./dataContent/staf_gudang')
 const dataContentManajer = require('./dataContent/manajer')
+const dataContentKasir = require('./dataContent/kasir_pembelian_barang')
 
 app.get('/', (req, res) => {
   if (req.session.user) {
@@ -353,6 +357,15 @@ app.get('/keuangan', (req, res) => {
 
   res.render('keuangan', {
     navigasi
+  })
+})
+
+app.post('/add_pembelian', (req, res) => {
+  const { body } = req
+
+  db.collection('pembelian').insert(body)
+  .then((result) => {
+    if (result) return res.status(200).send()
   })
 })
 

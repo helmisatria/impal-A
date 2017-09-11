@@ -62,8 +62,60 @@ function hargaJualFill() {
 function hargaJualDiskon() {
   const diskon = document.getElementById('diskon').value
   document.getElementById('hargaJual').value = Number(dataBarang.harga_jual)*kuantitas*((100-diskon)/100)
-  total = Number(dataBarang.harga_jual)*kuantitas
+  total = Number(dataBarang.harga_jual)*kuantitas*((100-diskon)/100)
 }
+
+function getTableData() {
+  // Loop through grabbing everything
+  var myRows = [];
+  var $headers = $("th");
+  var $rows = $("tbody tr").each(function(index) {
+    $cells = $(this).find("td");
+    myRows[index] = {};
+    $cells.each(function(cellIndex) {
+      myRows[index][$($headers[cellIndex]).html()] = $(this).html();
+    });
+  });
+
+  // Let's put this in the object like you want and convert to JSON (Note: jQuery will also do this for you on the Ajax request)
+  var result = {};
+  result = myRows;
+
+  $.ajax({
+    type: "POST",
+    url: '/add_pembelian',
+    data: {
+      data: result
+    },
+    statusCode: {
+      400: function(data) {
+        alert(data.responseText)
+      },
+      200: function(data) {
+        swal({
+          title: "",
+          text: "Data Pembelian Berhasil Disimpan!",
+          type: "success",
+          confirmButtonText: "Ok, Terimakasih"
+        }, () => {
+          setTimeout(() => {
+            location.reload()
+          }, 300)
+        });
+      }
+    }
+  });
+}
+
+$('a.delete-icon').on('click', function() {
+  console.log(this);
+  $(this).parent().remove();
+})
+
+$('a.aksi-icon').on('click', function() {
+  console.log(this);
+  $(this).parent().remove();
+})
 
 function addItem(){
   totalBiaya = totalBiaya + total
@@ -90,7 +142,7 @@ function addItem(){
       <td>${total}</td>
       <td class="aksi-icon-padding">
         <a class="modal-trigger" href="#modal-edit-data"><i class="material-icons aksi-icon">mode_edit</i></a>
-        <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
+        <a class="delete-icon"><i class="material-icons aksi-icon">delete</i></a>
       </td>
     </tr>
     `)
