@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/keuangan.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/sweetalert.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.7.0/sweetalert2.min.css">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="utf-8">
@@ -51,11 +51,11 @@
             </div>
             <div class="row">
               <div class="input-field col s6">
-                <input id="namaBarang" type="text" class="validate">
+                <input id="namaBarang" type="text" class="validate" disabled>
                 <label class="namaBarang" for="namaBarang">Nama Barang</label>
               </div>
               <div class="input-field col s6">
-                <input id="kategori" type="text" class="validate">
+                <input id="kategori" type="text" class="validate" disabled>
                 <label class="kategori" for="kategori">Kategori</label>
               </div>
             </div>
@@ -71,8 +71,8 @@
                 <label class="hargaJual" for="hargaJual">Harga Jual</label>
               </div>
               <div class="input-field col s6">
-                <input id="diskon" type="text" name="diskon" onkeyup="hargaJualDiskon()">
-                <label for="diskon">Diskon</label>
+                <input id="diskon" type="number" name="diskon" onkeyup="hargaJualDiskon()">
+                <label class="diskon" for="diskon">Diskon</label>
               </div>
             </div>
           </form>
@@ -83,7 +83,7 @@
         <p id="margin-text-total">Total yang harus dibayarkan</p>
         <p id="harga">Rp <span id="hargaTotal">0</span></p>
         <p>Barang Penjualan</p>
-        <table id="table-pembelian"class="centered bordered striped">
+        <table id="table-pembelian" class="centered bordered striped">
          <thead>
            <tr>
                <th>ID</th>
@@ -117,11 +117,9 @@
 
     {{> modal_delete_notification }}
 
-    {{> modal_edit_data }}
-
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
-    <script type="text/javascript" src="js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.7.0/sweetalert2.min.js"></script>
     <script type="text/javascript" src="js/keuangan.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){

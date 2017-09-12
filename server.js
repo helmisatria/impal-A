@@ -255,11 +255,9 @@ app.post('/delete_data/:collection', (req, res) => {
 
 app.post('/get_data/:collection', (req, res) => {
   const { body } = req
-  console.log(body);
   const { collection } = req.params
   db.collection(collection).findOne({ _id: ObjectId(body.id) })
     .then((result) => {
-      console.log(result);
       if (result) return res.status(200).send(result)
       return res.status(400).send('Tidak Ditemukan')
     })
@@ -360,13 +358,65 @@ app.get('/keuangan', (req, res) => {
   })
 })
 
-app.post('/add_pembelian', (req, res) => {
-  const { body } = req
-
-  db.collection('pembelian').insert(body)
-  .then((result) => {
-    if (result) return res.status(200).send()
+function checkStokBarang(datas) {
+  console.log(datas);
+  const promises = datas.map((data, i) => {
+    return new Promise((resolve, reject) => {
+      const id = data[0]
+      const namaBarang = data[1]
+      const count = data[2]
+      db.collection('barang').findOne({ _id: ObjectId(id) }, (err, result) => {
+        console.log({ stok: result.stok, count });
+        if (Number(result.stok) < Number(count)) {
+          console.log('reject');
+          reject(namaBarang)
+        } else {
+          console.log('resolve');
+          resolve()
+        }
+      })
+    })
   })
+  return Promise.all(promises)
+  .then(() => {
+    console.log('TRUE');
+    return true
+  })
+  .catch((namaBarang) => {
+    console.log('mambu');
+    return namaBarang
+  })
+}
+
+app.post('/add_pembelian', async (req, res) => {
+  const { body } = req
+  const data = []
+  for (let i = 0; i < body.countBelanja; i++) {
+    data.push(body[`data[${i + 2}][]`])
+  }
+  const check = checkStokBarang(data)
+  check.then((a) => {
+    if (a === true) {
+      res.status(200).send({
+        text: 'Pembelian barang berhasil dilakukan',
+        type: 'success'
+      })
+    } else {
+      res.status(400).send({
+        text: `Maaf, ${a} stok tidak mencukupi`,
+        type: 'error'
+      })
+    }
+  })
+  .catch((e) => {
+    res.status(400).send({
+      text: `Maaf, ${e} stok tidak mencukupi`,
+      type: 'error'
+    })
+  })
+  // if (check === true) {
+  // } else {
+  // }
 })
 
 app.get('/get_id_barang', (req, res) => {

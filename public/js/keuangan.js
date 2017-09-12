@@ -30,6 +30,7 @@ let dataBarang
 let idBarang
 let total
 let totalBiaya = 0
+let countBelanja = 0
 
 function autoFill() {
   idBarang = document.getElementById('idBarang').value
@@ -66,36 +67,36 @@ function hargaJualDiskon() {
 }
 
 function getTableData() {
-  // Loop through grabbing everything
-  var myRows = [];
-  var $headers = $("th");
-  var $rows = $("tbody tr").each(function(index) {
-    $cells = $(this).find("td");
-    myRows[index] = {};
-    $cells.each(function(cellIndex) {
-      myRows[index][$($headers[cellIndex]).html()] = $(this).html();
+
+  var tbl = $('table#table-pembelian tr').get().map(function(row) {
+    return $(row).find('td').get().map(function(cell) {
+      return $(cell).html();
     });
   });
-
-  // Let's put this in the object like you want and convert to JSON (Note: jQuery will also do this for you on the Ajax request)
-  var result = {};
-  result = myRows;
 
   $.ajax({
     type: "POST",
     url: '/add_pembelian',
     data: {
-      data: result
+      data: tbl,
+      countBelanja
     },
     statusCode: {
       400: function(data) {
-        alert(data.responseText)
-      },
-      200: function(data) {
+        console.log('400', data);
         swal({
           title: "",
-          text: "Data Pembelian Berhasil Disimpan!",
-          type: "success",
+          text: data.responseJSON.text,
+          type: data.responseJSON.type,
+          confirmButtonText: "Ok, Terimakasih"
+        });
+      },
+      200: function(data) {
+        console.log('200', data);
+        swal({
+          title: "",
+          text: data.text,
+          type: data.type,
           confirmButtonText: "Ok, Terimakasih"
         }, () => {
           setTimeout(() => {
@@ -107,19 +108,20 @@ function getTableData() {
   });
 }
 
-$('a.delete-icon').on('click', function() {
-  console.log(this);
-  $(this).parent().remove();
-})
+function deleteItem(id) {
+  let harga = Number($(`#${id}`).closest('tr')[0].cells[3].innerText)
+  totalBiaya -= harga
+  $('#hargaTotal').text(totalBiaya)
+  console.log($(`#${id}`).closest('tr')[0].cells[3].innerText)
+  $(`#${id}`).closest('tr').remove()
+  countBelanja--
+}
 
-$('a.aksi-icon').on('click', function() {
-  console.log(this);
-  $(this).parent().remove();
-})
 
 function addItem(){
+  const randomId = Math.floor((Math.random() * 10000) + 1);
+
   totalBiaya = totalBiaya + total
-  console.log(totalBiaya);
   $('#hargaTotal').text(totalBiaya)
 
   $('#idBarang').val('')
@@ -139,12 +141,12 @@ function addItem(){
       <td>${idBarang}</td>
       <td>${dataBarang.nama_barang}</td>
       <td>${kuantitas}</td>
-      <td>${total}</td>
+      <td class="harga">${total}</td>
       <td class="aksi-icon-padding">
-        <a class="modal-trigger" href="#modal-edit-data"><i class="material-icons aksi-icon">mode_edit</i></a>
-        <a class="delete-icon"><i class="material-icons aksi-icon">delete</i></a>
+        <a id="${randomId}" class="delete-icon"><i id="${randomId}" onclick="deleteItem('${randomId}')" class="material-icons aksi-icon delete-icon">delete</i></a>
       </td>
     </tr>
     `)
   total = 0
+  countBelanja++
 }
