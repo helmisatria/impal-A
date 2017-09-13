@@ -21,7 +21,7 @@ $("#formlogin").submit(function(e) {
       },
       200: function(data) {
         alert(`Welcome, ${data.username}!`)
-        window.location.replace('/data');
+        window.location.replace('/dashboard');
       }
     }
   });

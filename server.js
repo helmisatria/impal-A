@@ -51,15 +51,24 @@ const isAdmin = (req, res, next) => {
   return res.status(403).redirect('/dashboard')
 }
 
+const isKasir = (req, res, next) => {
+  if (req.cookies.xsecret && req.session.user) {
+    if (req.session.user.role.toUpperCase() === 'KASIR') {
+      return next()
+    }
+  }
+  return res.status(403).redirect('/dashboard')
+}
+
 let db
 
 MongoClient.connect(url)
   .then((database) => {
     db = database
-    console.log('connected to database!');
+    console.log('connected to database!')
   })
   .catch(() => {
-    console.log('Gagal connect ke database!');
+    console.log('Gagal connect ke database!')
   })
 
 // NAVIGASI
@@ -160,6 +169,9 @@ app.get('/dashboard', auth, (req, res) => {
   } else if (user.role === 'Bendahara') {
     navigasi = navigasiBendahara
     dashboardContent = dashboardBendahara
+  } else if (user.role === 'Kasir') {
+    navigasi = navigasiKasir
+    dashboardContent = dashboardKasir
   }
 
   navigasi[0].class = 'active-collection'
@@ -359,19 +371,15 @@ app.get('/keuangan', (req, res) => {
 })
 
 function checkStokBarang(datas) {
-  console.log(datas);
-  const promises = datas.map((data, i) => {
+  const promises = datas.map((data) => {
     return new Promise((resolve, reject) => {
       const id = data[0]
       const namaBarang = data[1]
       const count = data[2]
       db.collection('barang').findOne({ _id: ObjectId(id) }, (err, result) => {
-        console.log({ stok: result.stok, count });
         if (Number(result.stok) < Number(count)) {
-          console.log('reject');
           reject(namaBarang)
         } else {
-          console.log('resolve');
           resolve()
         }
       })
@@ -379,16 +387,14 @@ function checkStokBarang(datas) {
   })
   return Promise.all(promises)
   .then(() => {
-    console.log('TRUE');
     return true
   })
   .catch((namaBarang) => {
-    console.log('mambu');
     return namaBarang
   })
 }
 
-app.post('/add_pembelian', async (req, res) => {
+app.post('/add_pembelian', (req, res) => {
   const { body } = req
   const data = []
   for (let i = 0; i < body.countBelanja; i++) {
@@ -414,9 +420,6 @@ app.post('/add_pembelian', async (req, res) => {
       type: 'error'
     })
   })
-  // if (check === true) {
-  // } else {
-  // }
 })
 
 app.get('/get_id_barang', (req, res) => {

@@ -117,10 +117,20 @@ function deleteItem(id) {
   countBelanja--
 }
 
-
 function addItem(){
-  const randomId = Math.floor((Math.random() * 10000) + 1);
-
+  sameId = $(`tr#${idBarang}`).length
+  if (sameId !== 0) {
+    return swal({
+      title: "",
+      text: "Barang sudah dimasukkan ke keranjang",
+      type: "error",
+      confirmButtonText: "OK, Terimakasih"
+    }, () => {
+      setTimeout(() => {
+        location.reload()
+      }, 300)
+    });
+  }
   totalBiaya = totalBiaya + total
   $('#hargaTotal').text(totalBiaya)
 
@@ -137,13 +147,13 @@ function addItem(){
   $('#diskon').val('')
   $('label.diskon').removeClass('active')
   $('#table-pembelian tr:last').after(`
-    <tr>
+    <tr id="${idBarang}">
       <td>${idBarang}</td>
       <td>${dataBarang.nama_barang}</td>
       <td>${kuantitas}</td>
       <td class="harga">${total}</td>
       <td class="aksi-icon-padding">
-        <a id="${randomId}" class="delete-icon"><i id="${randomId}" onclick="deleteItem('${randomId}')" class="material-icons aksi-icon delete-icon">delete</i></a>
+        <a id="${idBarang}" class="delete-icon"><i id="${idBarang}" onclick="deleteItem('${idBarang}')" class="material-icons aksi-icon delete-icon">delete</i></a>
       </td>
     </tr>
     `)
