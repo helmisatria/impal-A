@@ -51,15 +51,24 @@ const isAdmin = (req, res, next) => {
   return res.status(403).redirect('/dashboard')
 }
 
+const isKasir = (req, res, next) => {
+  if (req.cookies.xsecret && req.session.user) {
+    if (req.session.user.role.toUpperCase() === 'KASIR') {
+      return next()
+    }
+  }
+  return res.status(403).redirect('/dashboard')
+}
+
 let db
 
 MongoClient.connect(url)
   .then((database) => {
     db = database
-    console.log('connected to database!');
+    console.log('connected to database!')
   })
   .catch(() => {
-    console.log('Gagal connect ke database!');
+    console.log('Gagal connect ke database!')
   })
 
 // NAVIGASI
@@ -67,24 +76,28 @@ const navigasiStafGudang = require('./navigasi/staf_gudang')
 const navigasiAdmin = require('./navigasi/admin')
 const navigasiManajer = require('./navigasi/manajer')
 const navigasiBendahara = require('./navigasi/bendahara')
+const navigasiKasir = require('./navigasi/kasir')
 
 // TABLE ROW
 const tableRowAdmin = require('./dashboard/tablerow/admin')
 const tableRowStafGudang = require('./dashboard/tablerow/staf_gudang')
 const tableRowAdminKelolaRole = require('./dashboard/tablerow/adminKelolaRole')
 const tableRowManajer = require('./dashboard/tablerow/manajer')
+const tableRowKasir = require('./dashboard/tablerow/kasir_pembelian_barang')
 
 // DASHBOARD
 const dashboardAdmin = require('./dashboard/admin')
 const dashboardStafGudang = require('./dashboard/staf_gudang')
 const dashboardManajer = require('./dashboard/manajer')
 const dashboardBendahara = require('./dashboard/bendahara')
+const dashboardKasir = require('./dashboard/kasir')
 
 // DATA CONTENT
 const dataContentAdmin = require('./dataContent/admin')
 const dataContentAdminKelolaRole = require('./dataContent/adminKelolaRole')
 const dataContentStafGudang = require('./dataContent/staf_gudang')
 const dataContentManajer = require('./dataContent/manajer')
+const dataContentKasir = require('./dataContent/kasir_pembelian_barang')
 
 app.get('/', (req, res) => {
   if (req.session.user) {
@@ -156,6 +169,9 @@ app.get('/dashboard', auth, (req, res) => {
   } else if (user.role === 'Bendahara') {
     navigasi = navigasiBendahara
     dashboardContent = dashboardBendahara
+  } else if (user.role === 'Kasir') {
+    navigasi = navigasiKasir
+    dashboardContent = dashboardKasir
   }
 
   navigasi[0].class = 'active-collection'
@@ -254,7 +270,6 @@ app.post('/get_data/:collection', (req, res) => {
   const { collection } = req.params
   db.collection(collection).findOne({ _id: ObjectId(body.id) })
     .then((result) => {
-      console.log(result);
       if (result) return res.status(200).send(result)
       return res.status(400).send('Tidak Ditemukan')
     })
@@ -353,6 +368,69 @@ app.get('/keuangan', (req, res) => {
   res.render('keuangan', {
     navigasi
   })
+})
+
+function checkStokBarang(datas) {
+  const promises = datas.map((data) => {
+    return new Promise((resolve, reject) => {
+      const id = data[0]
+      const namaBarang = data[1]
+      const count = data[2]
+      db.collection('barang').findOne({ _id: ObjectId(id) }, (err, result) => {
+        if (Number(result.stok) < Number(count)) {
+          reject(namaBarang)
+        } else {
+          resolve()
+        }
+      })
+    })
+  })
+  return Promise.all(promises)
+  .then(() => {
+    return true
+  })
+  .catch((namaBarang) => {
+    return namaBarang
+  })
+}
+
+app.post('/add_pembelian', (req, res) => {
+  const { body } = req
+  const data = []
+  for (let i = 0; i < body.countBelanja; i++) {
+    data.push(body[`data[${i + 2}][]`])
+  }
+  const check = checkStokBarang(data)
+  check.then((a) => {
+    if (a === true) {
+      res.status(200).send({
+        text: 'Pembelian barang berhasil dilakukan',
+        type: 'success'
+      })
+    } else {
+      res.status(400).send({
+        text: `Maaf, ${a} stok tidak mencukupi`,
+        type: 'error'
+      })
+    }
+  })
+  .catch((e) => {
+    res.status(400).send({
+      text: `Maaf, ${e} stok tidak mencukupi`,
+      type: 'error'
+    })
+  })
+})
+
+app.get('/get_id_barang', (req, res) => {
+  db.collection('barang').find().toArray()
+    .then((result) => {
+      if (!result) return res.status(400).send()
+      return res.status(200).send(result)
+    })
+    .catch((e) => {
+      res.status(400).send(e)
+    })
 })
 
 app.listen(8000, (err) => {

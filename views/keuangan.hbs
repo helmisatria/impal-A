@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/keuangan.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.7.0/sweetalert2.min.css">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="utf-8">
@@ -37,42 +38,41 @@
           <a href="#!" id="textdashboard" class="breadcrumb">Kasir</a>
         </div>
       </div>
-
     </nav>
     <div class="row">
       <div class="col s6">
         <div class="row">
           <form class="col s12">
-            <div id="marginrow"class="row">
-              <div class="input-field col s3">
-                <input id="idBarang" type="text" name="" value="">
-                <label for="idBarang">ID Barang</label>
+            <div id="marginrow" class="row">
+              <div class="input-field col s6">
+                <input id="idBarang" type="text" name="" class="autocomplete" onchange="autoFill()">
+                <label class="idBarang" for="idBarang">ID Barang</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s6">
-                <input id="namaBarang" type="text" class="validate">
-                <label for="namaBarang">Nama Barang</label>
+                <input id="namaBarang" type="text" class="validate" disabled>
+                <label class="namaBarang" for="namaBarang">Nama Barang</label>
               </div>
               <div class="input-field col s6">
-                <input id="Kategori" type="text" class="validate">
-                <label for="Kategori">Kategori</label>
+                <input id="kategori" type="text" class="validate" disabled>
+                <label class="kategori" for="kategori">Kategori</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s6">
-                <input id="inputBarang" type="text" class="validate">
-                <label for="inputBarang">Kuantitas</label>
+                <input id="kuantitas" type="number" class="validate" onkeyup="hargaJualFill()">
+                <label class="kuantitas" for="kuantitas">Kuantitas</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s6">
                 <input id="hargaJual" type="text" class="validate">
-                <label for="hargaJual">Harga Jual</label>
+                <label class="hargaJual" for="hargaJual">Harga Jual</label>
               </div>
               <div class="input-field col s6">
-                <input id="Diskon" type="text" name="Diskon" value="">
-                <label for="Diskon">Diskon</label>
+                <input id="diskon" type="number" name="diskon" onkeyup="hargaJualDiskon()">
+                <label class="diskon" for="diskon">Diskon</label>
               </div>
             </div>
           </form>
@@ -81,9 +81,9 @@
 
       <div id="kiritabel" class="col s6">
         <p id="margin-text-total">Total yang harus dibayarkan</p>
-        <p id="harga">Rp 0</p>
+        <p id="harga">Rp <span id="hargaTotal">0</span></p>
         <p>Barang Penjualan</p>
-        <table id="table-pembelian"class="centered bordered striped">
+        <table id="table-pembelian" class="centered bordered striped">
          <thead>
            <tr>
                <th>ID</th>
@@ -94,75 +94,12 @@
            </tr>
          </thead>
          <tbody>
-           <tr>
-             <td>KD001</td>
-             <td>Betadine</td>
-             <td>12</td>
-             <td>200000</td>
-             <td class="aksi-icon-padding">
-               <a class="modal-trigger" href="#modal-lihat-data"><i class="material-icons aksi-icon">remove_red_eye</i></a>
-               <a class="modal-trigger" href="#modal-edit-data"><i class="material-icons aksi-icon">mode_edit</i></a>
-               <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
-             </td>
-           </tr>
-           <tr>
-             <td>KD001</td>
-             <td>Betadine</td>
-             <td>12</td>
-             <td>200000</td>
-             <td class="aksi-icon-padding">
-               <a class="modal-trigger" href="#modal-lihat-data"><i class="material-icons aksi-icon">remove_red_eye</i></a>
-               <a class="modal-trigger" href="#modal-edit-data"><i class="material-icons aksi-icon">mode_edit</i></a>
-               <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
-             </td>
-           </tr>
-           <tr>
-             <td>KD001</td>
-             <td>Betadine</td>
-             <td>12</td>
-             <td>200000</td>
-             <td class="aksi-icon-padding">
-               <a class="modal-trigger" href="#modal-lihat-data"><i class="material-icons aksi-icon">remove_red_eye</i></a>
-               <a class="modal-trigger" href="#modal-edit-data"><i class="material-icons aksi-icon">mode_edit</i></a>
-               <a class="modal-trigger" href="#modal-delete"><i class="material-icons aksi-icon">delete</i></a>
-             </td>
-           </tr>
+           <tr></tr>
          </tbody>
        </table>
       </div>
     </div>
-    {{> modal_lihat_data }}
 
-    {{> modal_delete_notification }}
-
-    {{> modal_edit_data }}
-
-    <!-- Modal Structure -->
-    <div id="modal-delete" class="modal" >
-      <div class="modal-content">
-        <div class="row">
-          <div class="col s12" style="padding-right: 0">
-            <i id="modal-delete-close-icon" class="material-icons right modal-action modal-close" style="color: #BFBFBF">close</i>
-          </div>
-        </div>
-        <div class="row" style="margin-bottom: 10px">
-          <div class="col s12 modal-close-icon">
-            <i class="material-icons bulet" id="modal-close-icon">close</i>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            <span id="modal-delete-text">Apakah anda yakin menghapus data ini?</span>
-          </div>
-        </div>
-        <div class="row" style="margin-bottom: 50px">
-          <div class="col s12">
-            <a id="batalkan-btn" class="waves-effect waves-light btn btn-flat">Batalkan</a>
-            <a id="saya-yakin-btn"class="waves-effect waves-light btn red-btn">Ya, Saya Yakin</a>
-          </div>
-        </div>
-      </div>
-    </div>
     <div id="footer" class="row" style="margin-bottom: 0; padding-bottom: 20px">
       <div class="col s6">
         <div class="bottommarginbtn">
@@ -171,19 +108,23 @@
       </div>
       <div class="col s6">
         <div class="valign-wrapper right bottommarginbtn">
-          <a onclick="addItem()" class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Pembayaran</a>
+          <a id="btn-footer-right" onclick="getTableData()" class="waves-effect waves-light btn" style="background-color: #828282">Lanjutkan ke Pembayaran</a>
         </div>
       </div>
     </div>
-    <!--Import jQuery before materialize.js-->
+
+    {{> modal_lihat_data }}
+
+    {{> modal_delete_notification }}
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        $('.modal').modal()
-      })
-    </script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.7.0/sweetalert2.min.js"></script>
     <script type="text/javascript" src="js/keuangan.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('.modal').modal()
+    })
+    </script>
   </body>
 </html>

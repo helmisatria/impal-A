@@ -2,6 +2,8 @@
   "title": "Data Barang",
   "btn-left": "Cetak Data Barang",
   "btn-right": "Tambah Data Barang",
+  "modal-create-data-title": "Tambah Data Barang",
+  "search-placeholder": "Cari Data Barang",
   "staf_gudang": true,
   "modals" : {
     "unique" : {

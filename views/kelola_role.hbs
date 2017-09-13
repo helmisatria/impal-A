@@ -80,6 +80,7 @@
                     <option value="Staf Gudang" {{#ifCond role "Staf Gudang"}} disabled selected {{/ifCond}}>Staf Gudang</option>
                     <option value="Bendahara" {{#ifCond role "Bendahara"}} disabled selected {{/ifCond}}>Bendahara</option>
                     <option value="Member" {{#ifCond role "Member"}} disabled selected {{/ifCond}}>Member</option>
+                    <option value="Member" {{#ifCond role "Kasir"}} disabled selected {{/ifCond}}>Kasir</option>
                   </select>
                 </td>
             </tr>
@@ -97,40 +98,40 @@
   {{> modal_edit_data this}}
 
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript">
-    function updateRole(data, id) {
-      const selected = $(data).children('option:selected')[0].innerText
-      $.ajax({
-        type: "POST",
-        url: '/kelola_role',
-        data: {
-          id: id,
-          role: selected
-        },
-        statusCode: {
-          400: function(data) {
-            alert(data.responseText)
-          },
-          200: function(data) {
-            swal({
-              title: "",
-              text: "Role User Berhasil Disimpan!",
-              type: "success",
-              confirmButtonText: "Ok, Terimakasih"
-            }, () => {
-              setTimeout(() => {
-                location.reload()
-              }, 300)
-            });
-          }
-        }
-      })
-    }
-  </script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script type="text/javascript" src="js/sweetalert.min.js"></script>
   <script type="text/javascript" src="js/dashboard/dashboard.js"></script>
   <script type="text/javascript" src="js/table_to_excel.js"></script>
   <script type="text/javascript" src="js/kelola_role.js"></script>
+  <script type="text/javascript">
+  function updateRole(data, id) {
+    const selected = $(data).children('option:selected')[0].innerText
+    $.ajax({
+      type: "POST",
+      url: '/kelola_role',
+      data: {
+        id: id,
+        role: selected
+      },
+      statusCode: {
+        400: function(data) {
+          alert(data.responseText)
+        },
+        200: function(data) {
+          swal({
+            title: "",
+            text: "Role User Berhasil Disimpan!",
+            type: "success",
+            confirmButtonText: "Ok, Terimakasih"
+          }, () => {
+            setTimeout(() => {
+              location.reload()
+            }, 300)
+          });
+        }
+      }
+    })
+  }
+  </script>
 </body>
 </html>
