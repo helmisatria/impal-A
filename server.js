@@ -433,7 +433,7 @@ app.get('/get_id_barang', (req, res) => {
     })
 })
 
-app.listen(8000, (err) => {
+app.listen(process.env.PORT || 8000, (err) => {
   if (err) throw err
 
   console.log('Connected on port 8000');
