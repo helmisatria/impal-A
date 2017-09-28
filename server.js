@@ -13,7 +13,8 @@ hbs.registerHelper('ifCond', function (v1, v2, options) {
   return options.inverse(this)
 })
 
-const url = 'mongodb://localhost:27017/dbimpal-A';
+// const url = 'mongodb://localhost:27017/dbimpal-A';
+const url = 'mongodb://helmisatria:helmi232@ds151024.mlab.com:51024/simamat'
 
 const app = express()
 
