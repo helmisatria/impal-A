@@ -209,7 +209,13 @@ app.get('/data', auth, (req, res) => {
     dataTR = tableRowManajer
     dataContent = dataContentManajer
     collection = 'barang'
+  } else if (user.role === 'Kasir') {
+    navigasi = navigasiKasir
+    dataTR = tableRowKasir
+    dataContent = dataContentManajer
+    collection = 'barang'
   }
+
   navigasi[0].href = '/dashboard'
   navigasi[1].href = '#'
   navigasi[0].class = ''
@@ -362,11 +368,15 @@ app.post('/kelola_role', (req, res) => {
     })
 })
 
-app.get('/keuangan', (req, res) => {
+app.get('/keuangan', isKasir, (req, res) => {
   const navigasi = navigasiAdmin
+  const dataContent = dataContentStafGudang
+  const dataTR = tableRowStafGudang
 
   res.render('keuangan', {
-    navigasi
+    navigasi,
+    dataContent,
+    dataTR
   })
 })
 
@@ -433,7 +443,7 @@ app.get('/get_id_barang', (req, res) => {
     })
 })
 
-app.listen(8000, (err) => {
+app.listen(process.env.PORT || 8000, (err) => {
   if (err) throw err
 
   console.log('Connected on port 8000');
